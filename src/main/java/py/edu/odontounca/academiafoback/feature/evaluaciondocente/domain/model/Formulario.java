@@ -51,7 +51,7 @@ public class Formulario {
         this.indicadores.add(indicador);
     }
 
-    public Formulario reconstruir(Integer id, String descripcion, LocalDateTime fechaApertura, LocalDateTime fechaCierre, boolean activo, List<Indicador> indicadores){
+    public static Formulario reconstruir(Integer id, String descripcion, LocalDateTime fechaApertura, LocalDateTime fechaCierre, boolean activo, List<Indicador> indicadores){
         return new Formulario(id, descripcion, fechaApertura, fechaCierre, activo, indicadores);
     }
 }

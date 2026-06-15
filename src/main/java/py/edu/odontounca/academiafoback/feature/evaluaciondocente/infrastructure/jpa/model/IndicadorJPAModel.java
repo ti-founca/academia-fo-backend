@@ -1,9 +1,6 @@
 package py.edu.odontounca.academiafoback.feature.evaluaciondocente.infrastructure.jpa.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -21,4 +18,8 @@ public class IndicadorJPAModel {
 
     @Column(name = "ind_orden")
     private Integer nroOrden;
+
+    @ManyToOne
+    @JoinColumn(name = "ind_formulario")
+    private FormularioJPAModel formulario;
 }
