@@ -1,0 +1,10 @@
+[versions]
+lombok = "1.18.46"
+mapstruct = "1.6.3"
+lombok-mapstruct-binding = "0.2.0"
+
+[libraries]
+mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
+lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
+lombok-mapstruct-binding = { group = "org.projectlombok", name = "lombok-mapstruct-binding", version.ref = "lombok-mapstruct-binding" }
