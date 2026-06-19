@@ -2,13 +2,13 @@ package py.edu.odontounca.academiafoback.feature.evaluaciondocente.domain.model;
 
 import py.edu.odontounca.academiafoback.shared.validation.Assert;
 
-public class Evaluado {
+public class Persona {
     private Integer id;
     private String nombres;
     private String apellidos;
     private String ci;
 
-    private Evaluado(Integer id, String nombres, String apellidos, String ci) {
+    private Persona(Integer id, String nombres, String apellidos, String ci) {
         Assert.maxLength(nombres, 50, "Evaluado: «nombres» no puede ser nulo y no debe exceder 50 carácteres.");
         this.id = id;
         this.nombres = nombres;
@@ -29,7 +29,7 @@ public class Evaluado {
         return ci;
     }
 
-    public static Evaluado reconstruir(Integer id, String nombres, String apellidos, String ci){
-        return new Evaluado(id, nombres, apellidos, ci);
+    public static Persona reconstruir(Integer id, String nombres, String apellidos, String ci){
+        return new Persona(id, nombres, apellidos, ci);
     }
 }

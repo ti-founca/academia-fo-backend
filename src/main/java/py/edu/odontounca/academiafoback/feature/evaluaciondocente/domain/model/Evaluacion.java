@@ -14,8 +14,8 @@ public class Evaluacion {
     private boolean terminado;
     private Formulario formulario;
     private Materia materia;
-    private Evaluado evaluado;
-    private Evaluador evaluador;
+    private Persona evaluado;
+    private Persona evaluador;
     private List<DetalleEvaluacion> detalles = new ArrayList<>();
 
     private Evaluacion(
@@ -25,8 +25,8 @@ public class Evaluacion {
             boolean terminado,
             Formulario formulario,
             Materia materia,
-            Evaluado evaluado,
-            Evaluador evaluador,
+            Persona evaluado,
+            Persona evaluador,
             List<DetalleEvaluacion> detalles
     ) {
         Assert.notNull(id, "Evaluacion: «id» no puede ser nulo");
@@ -68,6 +68,12 @@ public class Evaluacion {
     public Materia getMateria() {
         return materia;
     }
+    public Persona getEvaluado() {
+        return evaluado;
+    }
+    public Persona getEvaluador() {
+        return evaluador;
+    }
     public List<DetalleEvaluacion> getDetalles() {
         return Collections.unmodifiableList(detalles);
     }
@@ -79,8 +85,8 @@ public class Evaluacion {
             boolean terminado,
             Formulario formulario,
             Materia materia,
-            Evaluado evaluado,
-            Evaluador evaluador,
+            Persona evaluado,
+            Persona evaluador,
             List<DetalleEvaluacion> detalles
     ){
         return new Evaluacion(id, fechaInicio,fechaFin, terminado, formulario, materia, evaluado, evaluador, detalles);
