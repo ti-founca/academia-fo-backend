@@ -25,4 +25,8 @@ public class DetalleEvaluacion {
     public Indicador getIndicador() {
         return indicador;
     }
+
+    public static DetalleEvaluacion reconstruir(Integer id, Integer puntaje, Indicador indicador){
+        return new DetalleEvaluacion(id, puntaje, indicador);
+    }
 }
