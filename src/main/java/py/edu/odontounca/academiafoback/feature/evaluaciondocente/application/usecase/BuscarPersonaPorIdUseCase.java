@@ -1,25 +1,24 @@
 package py.edu.odontounca.academiafoback.feature.evaluaciondocente.application.usecase;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.application.dto.query.BuscarPersonaPorIdQuery;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.application.dto.result.PersonaResult;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.application.dto.info.PersonaInfo;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.application.mapper.PersonaResultMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.domain.repository.PersonaRepository;
 import py.edu.odontounca.academiafoback.shared.exception.NotFoundError;
 
 @Service
+@RequiredArgsConstructor
 public class BuscarPersonaPorIdUseCase {
     private final PersonaRepository repository;
     private final PersonaResultMapper mapper;
 
-    public BuscarPersonaPorIdUseCase(PersonaRepository repository, PersonaResultMapper mapper) {
-        this.repository = repository;
-        this.mapper = mapper;
-    }
-
-    public PersonaResult execute(BuscarPersonaPorIdQuery query){
+    public BuscarPersonaPorIdUseCase.Result execute(BuscarPersonaPorIdUseCase.Query query){
         return this.repository.buscarPorId(query.id())
                 .map(this.mapper::toResult)
                 .orElseThrow(() -> new NotFoundError("Persona", query.id()));
     }
+
+    public static record Query(Integer id){}
+    public static record Result(PersonaInfo persona){}
 }

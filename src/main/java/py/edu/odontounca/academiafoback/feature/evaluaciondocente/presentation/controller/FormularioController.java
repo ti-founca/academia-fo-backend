@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.application.dto.query.BuscarFormularioPorIdQuery;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.application.dto.result.FormularioResult;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.application.usecase.BuscarFormularioPorIdUseCase;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.presentation.dto.FormularioDTO;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.presentation.mapper.FormularioResponseMapper;
@@ -21,8 +19,8 @@ public class FormularioController {
 
     @GetMapping("{id}")
     public FormularioDTO buscarPorId(@PathVariable("id") Integer id){
-        FormularioResult result = this.buscarFormularioPorIdUseCase.execute(new BuscarFormularioPorIdQuery(id));
-        return responseMapper.toResponse(result);
+        BuscarFormularioPorIdUseCase.Result result = this.buscarFormularioPorIdUseCase.execute(new BuscarFormularioPorIdUseCase.Query(id));
+        return responseMapper.toResponse(result.formulario());
     }
 
 }

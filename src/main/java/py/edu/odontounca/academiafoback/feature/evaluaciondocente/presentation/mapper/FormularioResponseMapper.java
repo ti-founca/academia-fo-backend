@@ -3,7 +3,7 @@ package py.edu.odontounca.academiafoback.feature.evaluaciondocente.presentation.
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.application.dto.result.FormularioResult;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.application.dto.info.FormularioInfo;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.presentation.dto.FormularioDTO;
 
 import java.time.Instant;
@@ -14,7 +14,7 @@ import java.time.ZoneId;
 public interface FormularioResponseMapper {
     @Mapping(target = "fechaApertura", source = "fechaApertura", qualifiedByName = "toInstant")
     @Mapping(target = "fechaCierre", source = "fechaCierre", qualifiedByName = "toInstant")
-    FormularioDTO toResponse(FormularioResult formularioResult);
+    FormularioDTO toResponse(FormularioInfo formularioInfo);
 
     @Named("toInstant")
     default Instant toInstant(LocalDateTime dateTime){

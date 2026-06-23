@@ -19,4 +19,7 @@ public class DetalleEvaluacionJPAModel {
     @JoinColumn(name = "evd_indicador")
     private IndicadorJPAModel indicador;
 
+    @ManyToOne
+    @JoinColumn(name = "evd_evaluacion")
+    private EvaluacionJPAModel evaluacion;
 }

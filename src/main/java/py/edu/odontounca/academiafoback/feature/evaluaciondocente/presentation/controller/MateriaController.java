@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.application.dto.query.BuscarMateriaPorIdQuery;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.application.dto.result.MateriaResult;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.application.usecase.BuscarMateriaPorIdUseCase;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.presentation.dto.MateriaDTO;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.presentation.mapper.MateriaResponseMapper;
@@ -20,7 +18,7 @@ public class MateriaController {
 
     @GetMapping("{id}")
     public MateriaDTO getPorId(@PathVariable("id") Integer id){
-        MateriaResult materiaResult = this.buscarMateriaPorIdUseCase.execute((new BuscarMateriaPorIdQuery(id)));
-        return this.mapper.toDTO(materiaResult);
+        BuscarMateriaPorIdUseCase.Result materiaResult = this.buscarMateriaPorIdUseCase.execute((new BuscarMateriaPorIdUseCase.Query(id)));
+        return this.mapper.toDTO(materiaResult.materia());
     }
 }
