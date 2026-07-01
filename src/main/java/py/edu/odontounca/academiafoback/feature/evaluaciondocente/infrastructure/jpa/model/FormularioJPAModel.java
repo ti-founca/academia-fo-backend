@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(schema = "evaluacion", name = "formulario")
-@Getter @Setter @RequiredArgsConstructor
+@Getter @Setter
 public class FormularioJPAModel {
     @Id
     @Column(name = "frm_id")
@@ -28,7 +28,13 @@ public class FormularioJPAModel {
     @Column(name = "frm_activo", nullable = false)
     private boolean activo;
 
+    @Column(name = "frm_periodo", nullable = false)
+    private Integer idPeriodo;
+
     @OneToMany(mappedBy = "formulario", fetch = FetchType.EAGER)
     private List<IndicadorJPAModel> indicadores;
 
+    @ManyToOne
+    @JoinColumn(name = "frm_tipo_eval")
+    private TipoEvaluacionJPAModel tipoEvaluacion;
 }

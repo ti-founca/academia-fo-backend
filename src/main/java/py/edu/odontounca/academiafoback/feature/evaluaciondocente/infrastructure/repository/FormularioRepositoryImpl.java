@@ -1,10 +1,11 @@
-package py.edu.odontounca.academiafoback.feature.evaluaciondocente.infrastructure.jpa.repository;
+package py.edu.odontounca.academiafoback.feature.evaluaciondocente.infrastructure.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.domain.model.Formulario;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.domain.repository.FormularioRepository;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.infrastructure.jpa.mapper.FormularioJPAMapper;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.infrastructure.jpa.repository.FormularioJPARepository;
 
 import java.util.Optional;
 

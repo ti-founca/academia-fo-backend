@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -11,9 +12,11 @@ import lombok.Setter;
 @Entity
 @Table(schema = "public", name = "personas")
 @Getter @Setter @RequiredArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class PersonaJPAModel {
     @Id
     @Column(name = "idpersona")
+    @EqualsAndHashCode.Include
     private Integer id;
 
     @Column(name = "nombre", length = 50, nullable = false)

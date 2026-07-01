@@ -2,6 +2,7 @@ package py.edu.odontounca.academiafoback.feature.evaluaciondocente.domain.reposi
 
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.domain.model.Persona;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PersonaRepository {

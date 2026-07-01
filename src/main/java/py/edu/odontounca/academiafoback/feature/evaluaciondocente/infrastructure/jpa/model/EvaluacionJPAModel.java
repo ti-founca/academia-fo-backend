@@ -1,6 +1,7 @@
 package py.edu.odontounca.academiafoback.feature.evaluaciondocente.infrastructure.jpa.model;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,9 +12,11 @@ import java.util.List;
 @Entity
 @Table(schema = "evaluacion", name = "evaluacion")
 @Getter @Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class EvaluacionJPAModel {
     @Id
     @Column(name = "eva_id")
+    @EqualsAndHashCode.Include
     private Integer id;
 
     @Column(name = "eva_inicio")
