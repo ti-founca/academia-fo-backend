@@ -27,7 +27,7 @@ public class EvaluacionController {
         return this.evaluacionMapper.toResponse(result.evaluacion());
     }
 
-    @GetMapping("puntajes/general")
+    @GetMapping("reportes/general")
     public List<EvaluacionGeneralDocenteMateriaDTO> consultarPuntajesGenerales(
             @RequestParam() Integer idPeriodo
     ){
