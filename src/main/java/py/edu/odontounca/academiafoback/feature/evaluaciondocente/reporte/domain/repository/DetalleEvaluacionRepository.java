@@ -1,0 +1,9 @@
+package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.repository;
+
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.model.DetalleEvaluacion;
+
+import java.util.Optional;
+
+public interface DetalleEvaluacionRepository {
+    Optional<DetalleEvaluacion> buscarPorId(Integer id);
+}
