@@ -1,6 +1,7 @@
 package py.edu.odontounca.academiafoback.shared.validation;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Assert {
@@ -14,6 +15,12 @@ public class Assert {
         if (valor != null && !valor.isBefore(referencia)) throw new IllegalArgumentException(mensaje);
     }
     public static void isAfter(LocalDateTime valor, LocalDateTime referencia, String mensaje) {
+        if (valor != null && !valor.isAfter(referencia)) throw new IllegalArgumentException(mensaje);
+    }
+    public static void isBefore(LocalDate valor, LocalDate referencia, String mensaje) {
+        if (valor != null && !valor.isBefore(referencia)) throw new IllegalArgumentException(mensaje);
+    }
+    public static void isAfter(LocalDate valor, LocalDate referencia, String mensaje) {
         if (valor != null && !valor.isAfter(referencia)) throw new IllegalArgumentException(mensaje);
     }
     public static void isBetweenInclusive(Integer valor, int min, int max, String mensaje){
