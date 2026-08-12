@@ -1,4 +1,4 @@
-package py.edu.odontounca.academiafoback.feature.periodolectivo.application;
+package py.edu.odontounca.academiafoback.feature.periodolectivo.application.mapper;
 
 import org.mapstruct.Mapper;
 import py.edu.odontounca.academiafoback.feature.periodolectivo.application.dto.info.PeriodoLectivoInfo;

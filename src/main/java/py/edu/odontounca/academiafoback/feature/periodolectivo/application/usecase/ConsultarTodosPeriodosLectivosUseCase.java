@@ -2,15 +2,12 @@ package py.edu.odontounca.academiafoback.feature.periodolectivo.application.usec
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import py.edu.odontounca.academiafoback.feature.periodolectivo.application.PeriodoLectivoResultMapper;
+import py.edu.odontounca.academiafoback.feature.periodolectivo.application.mapper.PeriodoLectivoResultMapper;
 import py.edu.odontounca.academiafoback.feature.periodolectivo.application.dto.info.PeriodoLectivoInfo;
 import py.edu.odontounca.academiafoback.feature.periodolectivo.domain.repository.PeriodoLectivoRepository;
 import py.edu.odontounca.academiafoback.shared.filter.Filter;
 import py.edu.odontounca.academiafoback.shared.pagination.Page;
 import py.edu.odontounca.academiafoback.shared.pagination.PageRequest;
-import py.edu.odontounca.academiafoback.shared.pagination.Sort;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
