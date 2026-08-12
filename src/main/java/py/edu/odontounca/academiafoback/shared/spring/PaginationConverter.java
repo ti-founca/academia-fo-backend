@@ -22,9 +22,9 @@ public class PaginationConverter {
         List<Sort.Order> orders = sort.getOrders()
                 .stream()
                 .map(o -> new Sort.Order(
-                        o.direction() == py.edu.odontounca.academiafoback.shared.pagination.Sort.Direction.ASC ?
+                        o.getDirection() == py.edu.odontounca.academiafoback.shared.pagination.Sort.Direction.ASC ?
                                 Sort.Direction.ASC : Sort.Direction.DESC,
-                        o.field()
+                        o.getField()
                 )).toList();
         return Sort.by(orders);
     }

@@ -10,4 +10,8 @@ public record PageRequest(int page, int size, Sort sort) {
     public static PageRequest of(int page, int size, Sort sort){
         return new PageRequest(page, size, sort);
     }
+
+    public static PageRequest of(int page, int size, String sortStr){
+        return new PageRequest(page, size, Sort.fromString(sortStr));
+    }
 }

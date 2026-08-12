@@ -13,7 +13,9 @@ import py.edu.odontounca.academiafoback.shared.pagination.Page;
 import py.edu.odontounca.academiafoback.shared.pagination.PageRequest;
 import py.edu.odontounca.academiafoback.shared.pagination.Sort;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/periodos-lectivos")
@@ -26,22 +28,15 @@ public class PeriodoLectivoController {
     public Page<PeriodoLectivoDTO> consultarTodos(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int size,
-            @RequestParam(required = false) String sortBy,
-            @RequestParam(required = false) String sortDir
+            @RequestParam(required = false) String sort
     ){
+        System.out.println(sort);
         ConsultarTodosPeriodosLectivosUseCase.Result result = this.consultarPeriodosLectivosUseCase.execute(
             new ConsultarTodosPeriodosLectivosUseCase.Query(
                 Filter.empty(),
-                sortBy != null ? PageRequest.of(page, size, Sort.by(sortBy, toDirection(sortDir))) : PageRequest.of(page, size)
+                sort != null ? PageRequest.of(page, size, sort) : PageRequest.of(page, size)
             )
         );
         return mapper.toResponsePage(result.periodosLectivosInfoPage());
-    }
-
-    private Sort.Direction toDirection(String dir){
-        if (dir == null) return Sort.Direction.ASC;
-        if (dir.equals("asc")) return Sort.Direction.ASC;
-        if (dir.equals("desc")) return Sort.Direction.DESC;
-        return Sort.Direction.ASC;
     }
 }
