@@ -7,7 +7,7 @@ import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.applic
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.mapper.MateriaResultMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.mapper.PersonaResultMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.mapper.TipoDocenteResultMapper;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.repository.EvaluacionQueryRepository;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.contract.EvaluacionQueryRepository;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.model.Estamento;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.repository.EstamentoRepository;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.repository.MateriaRepository;

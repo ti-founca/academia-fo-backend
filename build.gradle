@@ -31,6 +31,9 @@ dependencies {
     implementation libs.mapstruct
     annotationProcessor libs.mapstruct.processor
 
+    implementation libs.apache.poi
+    implementation libs.apache.poi.ooxml
+
     compileOnly libs.lombok
     annotationProcessor libs.lombok
 

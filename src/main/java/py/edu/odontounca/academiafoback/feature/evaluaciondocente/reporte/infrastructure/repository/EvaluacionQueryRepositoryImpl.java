@@ -3,7 +3,7 @@ package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infra
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.EvaluadoMateriaGeneralInfo;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.repository.EvaluacionQueryRepository;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.contract.EvaluacionQueryRepository;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.repository.EvaluacionQueryJPARepository;
 
 import java.util.List;

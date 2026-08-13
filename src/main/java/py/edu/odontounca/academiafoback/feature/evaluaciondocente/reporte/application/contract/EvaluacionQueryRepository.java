@@ -1,4 +1,4 @@
-package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.repository;
+package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.contract;
 
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.EvaluadoMateriaGeneralInfo;
 

@@ -2,9 +2,12 @@
 lombok = "1.18.46"
 mapstruct = "1.6.3"
 lombok-mapstruct-binding = "0.2.0"
+apache-poi = "5.5.1"
 
 [libraries]
 mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
 lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
 lombok-mapstruct-binding = { group = "org.projectlombok", name = "lombok-mapstruct-binding", version.ref = "lombok-mapstruct-binding" }
+apache-poi = { group = "org.apache.poi", name= "poi", version.ref = "apache-poi" }
+apache-poi-ooxml = { group = "org.apache.poi", name = "poi-ooxml", version.ref = "apache-poi" }
