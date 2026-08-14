@@ -14,8 +14,8 @@ public class EvaluacionQueryRepositoryImpl implements EvaluacionQueryRepository 
     private final EvaluacionQueryJPARepository evaluacionQueryJPARepository;
 
     @Override
-    public List<EvaluadoMateriaGeneralInfo> consultarEvaluadosPorPeriodo(Integer idPeriodo) {
-        return this.evaluacionQueryJPARepository.consultarEvaluadosPorPeriodoTipo(idPeriodo);
+    public List<EvaluadoMateriaGeneralInfo> consultarEvaluadosPor(Integer idPeriodo) {
+        return this.evaluacionQueryJPARepository.consultarEvaluadosPor(idPeriodo);
     }
 
     @Override

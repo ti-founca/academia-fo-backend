@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface EvaluacionQueryJPARepository extends JpaRepository<EvaluacionJPAModel, Integer> {
     @Query("SELECT DISTINCT e.evaluado.id AS idEvaluado, e.materia.id as idMateria, e.formulario.tipoEvaluacion.tipoDocente.id as idTipoDocente FROM EvaluacionJPAModel e WHERE e.formulario.idPeriodo = :idPeriodo AND e.terminado = true")
-    List<EvaluadoMateriaGeneralInfo> consultarEvaluadosPorPeriodoTipo(@Param("idPeriodo") Integer idPeriodo);
+    List<EvaluadoMateriaGeneralInfo> consultarEvaluadosPor(@Param("idPeriodo") Integer idPeriodo);
 
     @Query("SELECT AVG(de.puntaje) FROM DetalleEvaluacionJPAModel de WHERE de.evaluacion.terminado = true AND de.evaluacion.formulario.idPeriodo = :idPeriodo AND de.evaluacion.evaluado.id = :idEvaluado AND de.evaluacion.materia.id = :idMateria AND de.evaluacion.formulario.tipoEvaluacion.tipoDocente.id = :idTipoDocente AND de.evaluacion.formulario.tipoEvaluacion.estamento.id = :idEstamento")
     Optional<Double> obtenerPromedioPor(
