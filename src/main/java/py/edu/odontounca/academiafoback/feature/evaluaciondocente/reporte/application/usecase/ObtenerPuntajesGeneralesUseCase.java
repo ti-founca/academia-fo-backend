@@ -40,9 +40,9 @@ public class ObtenerPuntajesGeneralesUseCase {
         if(!(porcentajeTotal.compareTo(new BigDecimal("100.0")) == 0)){
             throw new RuntimeException("El porcentaje total de los estamentos debe sumar 100%, ahora suma " + porcentajeTotal);
         }
-        List<EvaluacionGeneralDocenteMateriaInfo> listDetalles = new ArrayList<>();
+        List<PuntajeGeneralInfo> listDetalles = new ArrayList<>();
         for(EvaluadoMateriaGeneralInfo evaluadoMateria : evaluadoMateriaList){
-            List<DetalleEvaluacionGeneralDocenteMateriaInfo> detalleEval = new ArrayList<>();
+            List<PuntajeGeneralDetalleInfo> detalleEval = new ArrayList<>();
             for(Estamento estamento: estamentoList){
                 BigDecimal promedio = BigDecimal.valueOf(
                     evaluacionQueryRepository.obtenerPromedioPor(
@@ -54,16 +54,16 @@ public class ObtenerPuntajesGeneralesUseCase {
                 );
                 BigDecimal ponderacion = estamento.getPorcentajePeso().divide(new BigDecimal("100.0"));
                 BigDecimal promediPonderado = promedio.multiply(ponderacion);
-                detalleEval.add(new DetalleEvaluacionGeneralDocenteMateriaInfo(
+                detalleEval.add(new PuntajeGeneralDetalleInfo(
                         this.estamentoResultMapper.toInfo(estamento),
                         promedio,
                         promediPonderado
                 ));
             }
             BigDecimal promedioGeneral = new BigDecimal("0.0");
-            for(DetalleEvaluacionGeneralDocenteMateriaInfo d : detalleEval) promedioGeneral = promedioGeneral.add(d.promedioPonderado());
+            for(PuntajeGeneralDetalleInfo d : detalleEval) promedioGeneral = promedioGeneral.add(d.promedioPonderado());
 
-            listDetalles.add(new EvaluacionGeneralDocenteMateriaInfo(
+            listDetalles.add(new PuntajeGeneralInfo(
                     this.findEvaluado(evaluadoMateria.idEvaluado()),
                     this.findMateria(evaluadoMateria.idMateria()),
                     this.findTipoDocente(evaluadoMateria.idTipoDocente()),
@@ -96,6 +96,6 @@ public class ObtenerPuntajesGeneralesUseCase {
     }
 
     public static record Query(Integer idPeriodo){}
-    public static record Result(List<EvaluacionGeneralDocenteMateriaInfo> detalles){}
+    public static record Result(List<PuntajeGeneralInfo> detalles){}
 
 }

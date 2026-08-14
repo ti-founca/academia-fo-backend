@@ -24,7 +24,7 @@ public abstract class EvaluacionGeneralDocenteMateriaResponseMapper {
     @Mapping(target = "tipoDocente", source = "tipoDocente", qualifiedByName = "getTipoDocente")
     @Mapping(target = "promedioGeneral", source = "promedioGeneral", qualifiedByName = "bigDecimalToDouble")
     @Mapping(target = "detalle", source = "detalles", qualifiedByName = "getDetalles")
-    public abstract EvaluacionGeneralDocenteMateriaDTO toResponse(EvaluacionGeneralDocenteMateriaInfo evaluacionInfo);
+    public abstract EvaluacionGeneralDocenteMateriaDTO toResponse(PuntajeGeneralInfo evaluacionInfo);
 
     @Named("getDocente")
     String getDocente(PersonaInfo docente){
@@ -48,7 +48,7 @@ public abstract class EvaluacionGeneralDocenteMateriaResponseMapper {
     }
 
     @Named("getDetalles")
-    List<DetalleEvaluacionGeneralDocenteMateriaDTO> getDetalles(List<DetalleEvaluacionGeneralDocenteMateriaInfo> detallesInfo){
+    List<DetalleEvaluacionGeneralDocenteMateriaDTO> getDetalles(List<PuntajeGeneralDetalleInfo> detallesInfo){
         return detallesInfo.stream().map(this.detalleEvaluacionMapper::toResponse).toList();
     }
 }

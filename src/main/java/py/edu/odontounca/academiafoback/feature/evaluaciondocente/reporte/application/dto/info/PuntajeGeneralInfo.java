@@ -3,11 +3,11 @@ package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.appli
 import java.math.BigDecimal;
 import java.util.List;
 
-public record EvaluacionGeneralDocenteMateriaInfo(
+public record PuntajeGeneralInfo(
         PersonaInfo evaluado,
         MateriaInfo materia,
         TipoDocenteInfo tipoDocente,
         BigDecimal promedioGeneral,
-        List<DetalleEvaluacionGeneralDocenteMateriaInfo> detalles
+        List<PuntajeGeneralDetalleInfo> detalles
 ) {
 }

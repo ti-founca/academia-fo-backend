@@ -2,7 +2,7 @@ package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.appli
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.DetalleEvaluacionInfo;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.EvaluacionDetalleInfo;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.mapper.DetalleEvaluacionResultMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.repository.DetalleEvaluacionRepository;
 import py.edu.odontounca.academiafoback.shared.exception.NotFoundError;
@@ -20,5 +20,5 @@ public class BuscarDetalleEvaluacionPorIdUseCase {
     }
 
     public static record Query(Integer id){}
-    public static record Result(DetalleEvaluacionInfo detalleEvaluacion){}
+    public static record Result(EvaluacionDetalleInfo detalleEvaluacion){}
 }

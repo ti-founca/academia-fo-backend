@@ -12,5 +12,5 @@ public record EvaluacionInfo(
         MateriaInfo materia,
         PersonaInfo evaluado,
         PersonaInfo evaluador,
-        List<DetalleEvaluacionInfo> detalles
+        List<EvaluacionDetalleInfo> detalles
 ) { }

@@ -3,7 +3,7 @@ package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.appli
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.contract.ExcelGenerator;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.EvaluacionGeneralDocenteMateriaInfo;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.PuntajeGeneralInfo;
 
 import java.util.List;
 
@@ -17,5 +17,5 @@ public class CrearExcelPuntajesGeneralesUseCase {
     }
 
     public static record Result(byte[] excel){}
-    public static record Query(List<EvaluacionGeneralDocenteMateriaInfo> detalles){}
+    public static record Query(List<PuntajeGeneralInfo> detalles){}
 }

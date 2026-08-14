@@ -2,11 +2,8 @@ package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.appli
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.EvaluacionGeneralDocenteMateriaInfo;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.usecase.CrearExcelPuntajesGeneralesUseCase;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.usecase.ObtenerPuntajesGeneralesUseCase;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

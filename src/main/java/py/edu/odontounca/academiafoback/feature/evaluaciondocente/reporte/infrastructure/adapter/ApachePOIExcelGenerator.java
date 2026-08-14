@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.contract.ExcelGenerator;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.EvaluacionGeneralDocenteMateriaInfo;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.PuntajeGeneralInfo;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class ApachePOIExcelGenerator implements ExcelGenerator {
     private static final Logger LOG = LoggerFactory.getLogger(ApachePOIExcelGenerator.class);
 
     @Override
-    public byte[] generate(List<EvaluacionGeneralDocenteMateriaInfo> detalles) {
+    public byte[] generate(List<PuntajeGeneralInfo> detalles) {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("PuntajeGeneralDocentes");
 
@@ -71,11 +71,11 @@ public class ApachePOIExcelGenerator implements ExcelGenerator {
         headerCell.setCellStyle(headerStyle);
     }
 
-    private void fillTable(Workbook workbook, Sheet sheet, List<EvaluacionGeneralDocenteMateriaInfo> detalles){
+    private void fillTable(Workbook workbook, Sheet sheet, List<PuntajeGeneralInfo> detalles){
         CellStyle style = workbook.createCellStyle();
         style.setWrapText(true);
         for(int i = 1; i < detalles.size(); i++){
-            EvaluacionGeneralDocenteMateriaInfo evaluacion = detalles.get(i-1);
+            PuntajeGeneralInfo evaluacion = detalles.get(i-1);
             Row row = sheet.createRow(i);
             Cell cell0 = row.createCell(0);
             cell0.setCellValue(evaluacion.evaluado().nombres()+ " " + evaluacion.evaluado().apellidos());

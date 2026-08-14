@@ -2,7 +2,7 @@ package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.appli
 
 import java.math.BigDecimal;
 
-public record DetalleEvaluacionGeneralDocenteMateriaInfo(
+public record PuntajeGeneralDetalleInfo(
         EstamentoInfo estamento,
         BigDecimal promedio,
         BigDecimal promedioPonderado

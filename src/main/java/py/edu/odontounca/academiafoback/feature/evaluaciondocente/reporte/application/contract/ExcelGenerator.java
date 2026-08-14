@@ -1,9 +1,9 @@
 package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.contract;
 
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.EvaluacionGeneralDocenteMateriaInfo;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.PuntajeGeneralInfo;
 
 import java.util.List;
 
 public interface ExcelGenerator {
-    byte[] generate(List<EvaluacionGeneralDocenteMateriaInfo> detalles);
+    byte[] generate(List<PuntajeGeneralInfo> detalles);
 }

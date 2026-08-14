@@ -3,7 +3,7 @@ package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.prese
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.DetalleEvaluacionGeneralDocenteMateriaInfo;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.PuntajeGeneralDetalleInfo;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.dto.DetalleEvaluacionGeneralDocenteMateriaDTO;
 
 import java.math.BigDecimal;
@@ -15,7 +15,7 @@ public interface DetalleEvaluacionGeneralDocenteMateriaResponseMapper {
     @Mapping(target = "peso", source = "estamento.porcentajePeso", qualifiedByName = "getPeso")
     @Mapping(target = "promedio", source = "promedio", qualifiedByName = "bigDecimalToDouble")
     @Mapping(target = "promedioPonderado", source = "promedioPonderado", qualifiedByName = "bigDecimalToDouble")
-    DetalleEvaluacionGeneralDocenteMateriaDTO toResponse(DetalleEvaluacionGeneralDocenteMateriaInfo detalle);
+    DetalleEvaluacionGeneralDocenteMateriaDTO toResponse(PuntajeGeneralDetalleInfo detalle);
 
     @Named("bigDecimalToString")
     default String bigDecimalToString(BigDecimal valor){
