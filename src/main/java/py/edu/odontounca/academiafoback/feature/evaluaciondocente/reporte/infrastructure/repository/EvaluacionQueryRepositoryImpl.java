@@ -2,7 +2,7 @@ package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infra
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.EvaluadoMateriaGeneralInfo;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.EvaluadoInfo;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.contract.EvaluacionQueryRepository;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.repository.EvaluacionQueryJPARepository;
 
@@ -14,8 +14,13 @@ public class EvaluacionQueryRepositoryImpl implements EvaluacionQueryRepository 
     private final EvaluacionQueryJPARepository evaluacionQueryJPARepository;
 
     @Override
-    public List<EvaluadoMateriaGeneralInfo> consultarEvaluadosPor(Integer idPeriodo) {
+    public List<EvaluadoInfo> consultarEvaluadosPor(Integer idPeriodo) {
         return this.evaluacionQueryJPARepository.consultarEvaluadosPor(idPeriodo);
+    }
+
+    @Override
+    public List<EvaluadoInfo> consultarEvaluadosPor(Integer idPeriodo, Integer idEstamento) {
+        return this.evaluacionQueryJPARepository.consultarEvaluadosPor(idPeriodo, idEstamento);
     }
 
     @Override

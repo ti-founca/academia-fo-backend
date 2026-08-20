@@ -33,7 +33,7 @@ public class ObtenerPuntajesGeneralesUseCase {
     private final EstamentoResultMapper estamentoResultMapper;
 
     public Result execute(Query query){
-        List<EvaluadoMateriaGeneralInfo> evaluadoMateriaList = this.evaluacionQueryRepository.consultarEvaluadosPor(query.idPeriodo);
+        List<EvaluadoInfo> evaluadoMateriaList = this.evaluacionQueryRepository.consultarEvaluadosPor(query.idPeriodo);
         List<Estamento> estamentoList = this.estamentoRepository.consultarTodos();
         BigDecimal porcentajeTotal = new BigDecimal("0");
         for(Estamento e : estamentoList) porcentajeTotal = porcentajeTotal.add(e.getPorcentajePeso());
@@ -41,7 +41,7 @@ public class ObtenerPuntajesGeneralesUseCase {
             throw new RuntimeException("El porcentaje total de los estamentos debe sumar 100%, ahora suma " + porcentajeTotal);
         }
         List<PuntajeGeneralInfo> listDetalles = new ArrayList<>();
-        for(EvaluadoMateriaGeneralInfo evaluadoMateria : evaluadoMateriaList){
+        for(EvaluadoInfo evaluadoMateria : evaluadoMateriaList){
             List<PuntajeGeneralDetalleInfo> detalleEval = new ArrayList<>();
             for(Estamento estamento: estamentoList){
                 BigDecimal promedio = BigDecimal.valueOf(

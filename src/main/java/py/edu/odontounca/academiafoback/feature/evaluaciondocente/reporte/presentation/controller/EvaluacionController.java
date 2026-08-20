@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.service.ExportarPuntajesGeneralesExcelService;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.usecase.BuscarEvaluacionPorIdUseCase;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.usecase.ObtenerPuntajesGeneralesUseCase;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.usecase.ObtenerPuntajesPorEstamentoUseCase;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.dto.EvaluacionDTO;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.dto.EvaluacionGeneralDocenteMateriaDTO;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.dto.PuntajePorEstamentoDTO;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.mapper.EvaluacionGeneralDocenteMateriaResponseMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.mapper.EvaluacionResponseMapper;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.mapper.PuntajePorEstamentoResponseMapper;
 
 import java.util.List;
 
@@ -22,10 +25,13 @@ import java.util.List;
 public class EvaluacionController {
     private final BuscarEvaluacionPorIdUseCase buscarEvaluacionPorIdUseCase;
     private final ObtenerPuntajesGeneralesUseCase obtenerPuntajesGeneralesUseCase;
+    private final ObtenerPuntajesPorEstamentoUseCase obtenerPuntajesPorEstamentoUseCase;
     private final ExportarPuntajesGeneralesExcelService exportarPuntajesGeneralesExcelService;
+
 
     private final EvaluacionResponseMapper evaluacionMapper;
     private final EvaluacionGeneralDocenteMateriaResponseMapper evaluacionGeneralMapper;
+    private final PuntajePorEstamentoResponseMapper puntajePorEstamentoResponseMapper;
 
     @GetMapping("{id}")
     public EvaluacionDTO buscarPorId(@PathVariable("id") Integer id){
@@ -35,10 +41,22 @@ public class EvaluacionController {
 
     @GetMapping("reportes/general")
     public List<EvaluacionGeneralDocenteMateriaDTO> consultarPuntajesGenerales(
-            @RequestParam() Integer idPeriodo
+            @RequestParam Integer idPeriodo
     ){
         ObtenerPuntajesGeneralesUseCase.Result result = this.obtenerPuntajesGeneralesUseCase.execute(new ObtenerPuntajesGeneralesUseCase.Query(idPeriodo));
         return result.detalles().stream().map(this.evaluacionGeneralMapper::toResponse).toList();
+    }
+
+    @GetMapping("reportes/estamento/{idEstamento}")
+    public PuntajePorEstamentoDTO consultarPuntajesPorEstamento(
+            @RequestParam Integer idPeriodo,
+            @PathVariable Integer idEstamento
+    ){
+        return this.puntajePorEstamentoResponseMapper.toResponse(
+                this.obtenerPuntajesPorEstamentoUseCase.execute(
+                        new ObtenerPuntajesPorEstamentoUseCase.Query(idPeriodo, idEstamento)
+                )
+        );
     }
 
     @GetMapping("reportes/general/exportar")
