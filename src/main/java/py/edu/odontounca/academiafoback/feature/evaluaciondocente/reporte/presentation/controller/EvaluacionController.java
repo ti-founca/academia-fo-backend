@@ -10,12 +10,15 @@ import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.applic
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.usecase.BuscarEvaluacionPorIdUseCase;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.usecase.ObtenerPuntajesGeneralesUseCase;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.usecase.ObtenerPuntajesPorEstamentoUseCase;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.usecase.ObtenerPuntajesPorIndicadorUseCase;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.dto.EvaluacionDTO;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.dto.EvaluacionGeneralDocenteMateriaDTO;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.dto.PuntajePorEstamentoDTO;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.dto.PuntajesPorIndicadorDTO;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.mapper.EvaluacionGeneralDocenteMateriaResponseMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.mapper.EvaluacionResponseMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.mapper.PuntajePorEstamentoResponseMapper;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.mapper.PuntajePorIndicadorResponseMapper;
 
 import java.util.List;
 
@@ -27,11 +30,12 @@ public class EvaluacionController {
     private final ObtenerPuntajesGeneralesUseCase obtenerPuntajesGeneralesUseCase;
     private final ObtenerPuntajesPorEstamentoUseCase obtenerPuntajesPorEstamentoUseCase;
     private final ExportarPuntajesGeneralesExcelService exportarPuntajesGeneralesExcelService;
-
+    private final ObtenerPuntajesPorIndicadorUseCase obtenerPuntajesPorIndicadorUseCase;
 
     private final EvaluacionResponseMapper evaluacionMapper;
     private final EvaluacionGeneralDocenteMateriaResponseMapper evaluacionGeneralMapper;
     private final PuntajePorEstamentoResponseMapper puntajePorEstamentoResponseMapper;
+    private final PuntajePorIndicadorResponseMapper puntajePorIndicadorResponseMapper;
 
     @GetMapping("{id}")
     public EvaluacionDTO buscarPorId(@PathVariable("id") Integer id){
@@ -70,6 +74,18 @@ public class EvaluacionController {
         headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
         headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=puntaje-general-docentes.xlsx");
         return new ResponseEntity<>(excel, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("reportes/indicador")
+    public List<PuntajesPorIndicadorDTO> consultarPuntajesPorIndicador(
+            @RequestParam Integer idPeriodo,
+            @RequestParam(required = false) Integer idEstamento,
+            @RequestParam(required = false) Integer idTipoDocente
+    ){
+        ObtenerPuntajesPorIndicadorUseCase.Result result = this.obtenerPuntajesPorIndicadorUseCase.execute(
+                new ObtenerPuntajesPorIndicadorUseCase.Query(idPeriodo, idEstamento, idTipoDocente)
+        );
+        return this.puntajePorIndicadorResponseMapper.toResponseList(result.detalles());
     }
 
 }

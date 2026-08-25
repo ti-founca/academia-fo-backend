@@ -1,6 +1,7 @@
 package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.mapper;
 
 import org.mapstruct.Mapper;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.IndicadorInfo;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.model.Indicador;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.model.IndicadorJPAModel;
 
@@ -18,4 +19,6 @@ public interface IndicadorJPAMapper {
                 .map(indicadorJpa -> Indicador.reconstruir(indicadorJpa.getId(), indicadorJpa.getNroOrden(), indicadorJpa.getDescripcion()))
                 .collect(Collectors.toList());
     }
+
+    IndicadorInfo toInfo(IndicadorJPAModel indicadorJpa);
 }
