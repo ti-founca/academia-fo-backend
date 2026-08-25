@@ -1,6 +1,7 @@
 package py.edu.odontounca.academiafoback.shared.filter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,5 +27,8 @@ public class Filter {
 
     public static Filter empty(){
         return new Filter();
+    }
+    public static Filter of(Criteria... criterias){
+        return new Filter(Arrays.stream(criterias).toList());
     }
 }
