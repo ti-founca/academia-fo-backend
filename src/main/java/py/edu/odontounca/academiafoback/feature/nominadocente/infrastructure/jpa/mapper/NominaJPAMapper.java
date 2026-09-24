@@ -5,13 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import py.edu.odontounca.academiafoback.feature.nominadocente.domain.model.Nomina;
 import py.edu.odontounca.academiafoback.feature.nominadocente.infrastructure.jpa.model.NominaJPAModel;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring")
 public abstract class NominaJPAMapper {
 
-    @Autowired protected PeriodoLectivoJPAMapper periodoLectivoJPAMapper;
+    @Autowired protected NominaPeriodoLectivoJPAMapper periodoLectivoJPAMapper;
     @Autowired protected PlanCurricularJPAMapper planCurricularJPAMapper;
+    @Autowired protected NominaDetalleJPAMapper nominaDetalleJPAMapper;
 
     public Nomina toDomain(NominaJPAModel nominaJpa){
         return Nomina.reconstruir(
@@ -19,8 +18,7 @@ public abstract class NominaJPAMapper {
                 nominaJpa.getNombre(),
                 this.periodoLectivoJPAMapper.toDomain(nominaJpa.getPeriodo()),
                 this.planCurricularJPAMapper.toDomain(nominaJpa.getPlanCurricularJPAModel()),
-                // TODO: mapear los detalles cuando exista NominaDetalleJPAModel
-                List.of()
+                nominaJpa.getDetalles().stream().map(this.nominaDetalleJPAMapper::toDomain).toList()
         );
     }
 }
