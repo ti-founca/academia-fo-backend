@@ -10,5 +10,5 @@ public interface EvaluacionQueryRepository {
     List<EvaluadoInfo> consultarEvaluadosPor(Integer idPeriodo, Integer idEstamento);
     Double obtenerPromedioPor(Integer idPeriodo, Integer idEvaluado, Integer idMateria, Integer idTipoDocente, Integer idEstamento);
     Double obtenerCantidadPromediadaPor(Integer idPeriodo, Integer idEvaluado, Integer idMateria, Integer idTipoDocente);
-    List<PuntajeIndicadorInfo> obtenerPuntajeIndicadorPor(Integer idPeriodo, Integer idEstamento, Integer idTipoDocente);
+    List<PuntajeIndicadorInfo> obtenerPuntajeIndicadorPor(Integer idPeriodo, Integer idEstamento, Integer idTipoDocente, Integer idEvaluado);
 }

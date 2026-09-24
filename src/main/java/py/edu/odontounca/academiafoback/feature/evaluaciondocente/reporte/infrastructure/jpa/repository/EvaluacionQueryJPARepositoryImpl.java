@@ -30,7 +30,7 @@ public class EvaluacionQueryJPARepositoryImpl implements PuntajePorIndicadorJPAR
     public List<PuntajeIndicadorProjection> obtenerPuntajeIndicador(Integer idPeriodo);*/
 
     @Override
-    public List<PuntajeIndicadorProjection> obtenerPuntajeIndicador(Integer idPeriodo, Integer idEstamento, Integer idTipoDocente) {
+    public List<PuntajeIndicadorProjection> obtenerPuntajeIndicador(Integer idPeriodo, Integer idEstamento, Integer idTipoDocente, Integer idEvaluado) {
         CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
         CriteriaQuery query = cb.createQuery(PuntajeIndicadorProjection.class);
         Root<DetalleEvaluacionJPAModel> root = query.from(DetalleEvaluacionJPAModel.class);
@@ -42,6 +42,7 @@ public class EvaluacionQueryJPARepositoryImpl implements PuntajePorIndicadorJPAR
         Path<Integer> idEstamentoPath = estamentoPath.get("id");
         Path<Boolean> terminadoPath = root.get("evaluacion").get("terminado");
         Path<Integer> idPeriodoPath = root.get("evaluacion").get("formulario").get("idPeriodo");
+        Path<Integer> idEvaluadoPath = root.get("evaluacion").get("evaluado").get("id");
         Path<Double> puntajePath = root.get("puntaje");
 
         List<Predicate> predicates = new ArrayList<>();
@@ -51,6 +52,7 @@ public class EvaluacionQueryJPARepositoryImpl implements PuntajePorIndicadorJPAR
         //Filtros opcionales
         if (idTipoDocente != null) predicates.add(cb.equal(idTipoDocentePath, idTipoDocente));
         if (idEstamento != null) predicates.add(cb.equal(idEstamentoPath, idEstamento));
+        if (idEvaluado != null) predicates.add(cb.equal(idEvaluadoPath, idEvaluado));
 
         query.where(predicates.toArray(new Predicate[0]));
         query.select(cb.construct(

@@ -39,14 +39,14 @@ public class ObtenerPuntajesPorEstamentoUseCase {
         for(EvaluadoInfo evaluadoInfo : evaluadoInfoList){
             BigDecimal puntaje = BigDecimal.valueOf(
                     this.evaluacionQueryRepository.obtenerPromedioPor(
-                        query.idPeriodo(), evaluadoInfo.idEvaluado(), evaluadoInfo.idMateria(), evaluadoInfo.idTipoDocente(), query.idEstamento()
+                        query.idPeriodo(), evaluadoInfo.evaluado().id(), evaluadoInfo.materia().id(), evaluadoInfo.tipoDocente().id(), query.idEstamento()
                     )
             );
             puntajeGeneralList.add(
                 new PuntajeGeneralInfo(
-                        this.findEvaluado(evaluadoInfo.idEvaluado()),
-                        this.findMateria(evaluadoInfo.idMateria()),
-                        this.findTipoDocente(evaluadoInfo.idTipoDocente()),
+                        this.findEvaluado(evaluadoInfo.evaluado().id()),
+                        this.findMateria(evaluadoInfo.materia().id()),
+                        this.findTipoDocente(evaluadoInfo.tipoDocente().id()),
                         puntaje,
                         List.of()
                 )

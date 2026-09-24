@@ -1,6 +1,7 @@
 package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.mapper;
 
 import org.mapstruct.Mapper;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.MateriaInfo;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.model.Materia;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.model.MateriaJPAModel;
 
@@ -9,4 +10,6 @@ public interface MateriaJPAMapper {
     default Materia toDomain(MateriaJPAModel materiaJpa){
         return Materia.reconstruir(materiaJpa.getId(), materiaJpa.getDescripcion(), materiaJpa.getCodigo());
     }
+
+    MateriaInfo toInfo(MateriaJPAModel materiaJpa);
 }

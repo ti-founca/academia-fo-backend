@@ -47,9 +47,9 @@ public class ObtenerPuntajesGeneralesUseCase {
                 BigDecimal promedio = BigDecimal.valueOf(
                     evaluacionQueryRepository.obtenerPromedioPor(
                     query.idPeriodo,
-                    evaluadoMateria.idEvaluado(),
-                    evaluadoMateria.idMateria(),
-                    evaluadoMateria.idTipoDocente(),
+                    evaluadoMateria.evaluado().id(),
+                    evaluadoMateria.materia().id(),
+                    evaluadoMateria.tipoDocente().id(),
                     estamento.getId())
                 );
                 BigDecimal ponderacion = estamento.getPorcentajePeso().divide(new BigDecimal("100.0"));
@@ -64,9 +64,9 @@ public class ObtenerPuntajesGeneralesUseCase {
             for(PuntajeGeneralDetalleInfo d : detalleEval) promedioGeneral = promedioGeneral.add(d.promedioPonderado());
 
             listDetalles.add(new PuntajeGeneralInfo(
-                    this.findEvaluado(evaluadoMateria.idEvaluado()),
-                    this.findMateria(evaluadoMateria.idMateria()),
-                    this.findTipoDocente(evaluadoMateria.idTipoDocente()),
+                    this.findEvaluado(evaluadoMateria.evaluado().id()),
+                    this.findMateria(evaluadoMateria.materia().id()),
+                    this.findTipoDocente(evaluadoMateria.tipoDocente().id()),
                     promedioGeneral,
                     detalleEval
             ));

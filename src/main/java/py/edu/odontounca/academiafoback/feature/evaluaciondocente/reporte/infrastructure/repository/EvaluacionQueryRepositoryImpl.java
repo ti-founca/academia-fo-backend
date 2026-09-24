@@ -5,9 +5,7 @@ import org.springframework.stereotype.Repository;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.EvaluadoInfo;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.contract.EvaluacionQueryRepository;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.PuntajeIndicadorInfo;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.mapper.EstamentoJPAMapper;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.mapper.IndicadorJPAMapper;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.mapper.TipoDocenteJPAMapper;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.mapper.*;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.repository.EvaluacionQueryJPARepository;
 
 import java.math.BigDecimal;
@@ -22,10 +20,16 @@ public class EvaluacionQueryRepositoryImpl implements EvaluacionQueryRepository 
     private final EstamentoJPAMapper estamentoMapper;
     private final TipoDocenteJPAMapper tipoDocenteMapper;
     private final IndicadorJPAMapper indicadorMapper;
+    private final PersonaJPAMapper personaMapper;
+    private final MateriaJPAMapper  materiaMapper;
 
     @Override
     public List<EvaluadoInfo> consultarEvaluadosPor(Integer idPeriodo) {
-        return this.evaluacionQueryJPARepository.consultarEvaluadosPor(idPeriodo);
+        return this.evaluacionQueryJPARepository.consultarEvaluadosPor(idPeriodo).stream().map(projection -> new EvaluadoInfo(
+                this.personaMapper.toInfo(projection.evaluado()),
+                this.materiaMapper.toInfo(projection.materia()),
+                this.tipoDocenteMapper.toInfo(projection.tipoDocente())
+        )).toList();
     }
 
     @Override
@@ -46,8 +50,8 @@ public class EvaluacionQueryRepositoryImpl implements EvaluacionQueryRepository 
     }
 
     @Override
-    public List<PuntajeIndicadorInfo> obtenerPuntajeIndicadorPor(Integer idPeriodo, Integer idEstamento, Integer idTipoDocente) {
-        return this.evaluacionQueryJPARepository.obtenerPuntajeIndicador(idPeriodo, idEstamento, idTipoDocente)
+    public List<PuntajeIndicadorInfo> obtenerPuntajeIndicadorPor(Integer idPeriodo, Integer idEstamento, Integer idTipoDocente, Integer idEvaluado) {
+        return this.evaluacionQueryJPARepository.obtenerPuntajeIndicador(idPeriodo, idEstamento, idTipoDocente, idEvaluado)
             .stream()
             .map(puntajeProj -> new PuntajeIndicadorInfo(
                     this.estamentoMapper.toInfo(puntajeProj.estamento()),

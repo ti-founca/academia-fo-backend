@@ -4,8 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.EvaluadoInfo;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.PuntajeIndicadorInfo;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.dto.PuntajeIndicadorProjection;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.dto.EvaluadoPeriodoProjection;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.model.EvaluacionJPAModel;
 
 import java.util.List;
@@ -13,12 +12,12 @@ import java.util.Optional;
 
 public interface EvaluacionQueryJPARepository extends JpaRepository<EvaluacionJPAModel, Integer>, PuntajePorIndicadorJPARepository {
     @Query("SELECT DISTINCT " +
-                    "e.evaluado.id AS idEvaluado," +
-                    "e.materia.id as idMateria," +
-                    "e.formulario.tipoEvaluacion.tipoDocente.id as idTipoDocente " +
+                    "e.evaluado AS evaluado," +
+                    "e.materia as materia," +
+                    "e.formulario.tipoEvaluacion.tipoDocente as tipoDocente " +
                     "FROM EvaluacionJPAModel e " +
                     "WHERE e.formulario.idPeriodo = :idPeriodo AND e.terminado = true")
-    List<EvaluadoInfo> consultarEvaluadosPor(@Param("idPeriodo") Integer idPeriodo);
+    List<EvaluadoPeriodoProjection> consultarEvaluadosPor(@Param("idPeriodo") Integer idPeriodo);
 
     @Query("SELECT DISTINCT " +
             "e.evaluado.id AS idEvaluado," +
