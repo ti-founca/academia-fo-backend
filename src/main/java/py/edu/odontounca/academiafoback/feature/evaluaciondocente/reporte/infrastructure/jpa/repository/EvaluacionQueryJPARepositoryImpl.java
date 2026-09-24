@@ -64,7 +64,10 @@ public class EvaluacionQueryJPARepositoryImpl implements PuntajePorIndicadorJPAR
                 cb.count(root)
                 )
         );
-        query.groupBy(indicadorPath, tipoDocentePath, estamentoPath);
+        if(idTipoDocente != null)
+            query.groupBy(indicadorPath, tipoDocentePath, estamentoPath, idEvaluadoPath);
+        else
+            query.groupBy(indicadorPath, tipoDocentePath, estamentoPath);
         return entityManager.createQuery(query).getResultList();
     }
 }
