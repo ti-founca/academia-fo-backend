@@ -9,5 +9,4 @@ public record PuntajeGeneralInfo(
         TipoDocenteInfo tipoDocente,
         BigDecimal promedioGeneral,
         List<PuntajeGeneralDetalleInfo> detalles
-) {
-}
+) { }

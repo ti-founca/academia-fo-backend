@@ -3,6 +3,7 @@ package py.edu.odontounca.academiafoback.feature.nominadocente.application.dto.i
 public record DocenteInfo(
         Integer id,
         String nombres,
-        String apellidos
+        String apellidos,
+        String ci
 ) {
 }

@@ -2,11 +2,15 @@ package py.edu.odontounca.academiafoback.feature.nominadocente.presentation.cont
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import py.edu.odontounca.academiafoback.feature.nominadocente.application.usecase.ConsultarDocentesPorNominaUseCase;
 import py.edu.odontounca.academiafoback.feature.nominadocente.application.usecase.ConsultarTodasNominasUseCase;
+import py.edu.odontounca.academiafoback.feature.nominadocente.presentation.dto.DocenteDTO;
 import py.edu.odontounca.academiafoback.feature.nominadocente.presentation.dto.NominaDTO;
+import py.edu.odontounca.academiafoback.feature.nominadocente.presentation.mapper.DocenteResponseMapper;
 import py.edu.odontounca.academiafoback.feature.nominadocente.presentation.mapper.NominaResponseMapper;
 import py.edu.odontounca.academiafoback.shared.filter.Filter;
 import py.edu.odontounca.academiafoback.shared.pagination.Page;
@@ -20,7 +24,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NominaController {
     private final NominaResponseMapper mapper;
+    private final DocenteResponseMapper docenteMapper;
     private final ConsultarTodasNominasUseCase consultarTodasNominasUseCase;
+    private final ConsultarDocentesPorNominaUseCase consultarDocentesPorNominaUseCase;
 
     @GetMapping()
     public Page<NominaDTO> consultarTodas(
@@ -43,5 +49,13 @@ public class NominaController {
             )
         );
         return mapper.toResponsePage(result.nominasInfoPage());
+    }
+
+    @GetMapping("/{id}/docentes")
+    public List<DocenteDTO> consultarDocentes(@PathVariable Integer id){
+        ConsultarDocentesPorNominaUseCase.Result result = this.consultarDocentesPorNominaUseCase.execute(
+            new ConsultarDocentesPorNominaUseCase.Query(id)
+        );
+        return docenteMapper.toResponseList(result.docentesInfo());
     }
 }

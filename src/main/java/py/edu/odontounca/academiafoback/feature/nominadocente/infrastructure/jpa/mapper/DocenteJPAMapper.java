@@ -10,7 +10,8 @@ public interface DocenteJPAMapper {
         return Docente.reconstruir(
                 docenteJpa.getId(),
                 docenteJpa.getNombres(),
-                docenteJpa.getApellidos()
+                docenteJpa.getApellidos(),
+                docenteJpa.getCi()
         );
     };
 }
