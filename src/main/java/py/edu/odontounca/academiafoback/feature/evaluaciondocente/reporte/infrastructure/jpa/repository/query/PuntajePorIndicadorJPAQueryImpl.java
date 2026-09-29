@@ -1,4 +1,4 @@
-package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.repository;
+package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.repository.query;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class EvaluacionQueryJPARepositoryImpl implements PuntajePorIndicadorJPARepository{
+public class PuntajePorIndicadorJPAQueryImpl implements PuntajePorIndicadorJPAQuery {
     @PersistenceContext
     private EntityManager entityManager;
 

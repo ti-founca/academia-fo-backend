@@ -5,12 +5,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.EvaluadoInfo;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.dto.EvaluadoPeriodoProjection;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.dto.PuntajeEstamentoProjection;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.model.EvaluacionJPAModel;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.repository.query.PuntajePorIndicadorJPAQuery;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface EvaluacionQueryJPARepository extends JpaRepository<EvaluacionJPAModel, Integer>, PuntajePorIndicadorJPARepository {
+public interface EvaluacionQueryJPARepository extends JpaRepository<EvaluacionJPAModel, Integer>, PuntajePorIndicadorJPAQuery {
     @Query("SELECT DISTINCT " +
                     "e.evaluado AS evaluado," +
                     "e.materia as materia," +

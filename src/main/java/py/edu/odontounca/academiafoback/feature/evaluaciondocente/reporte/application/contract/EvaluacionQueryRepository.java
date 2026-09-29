@@ -1,6 +1,7 @@
 package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.contract;
 
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.EvaluadoInfo;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.PuntajeEstamentoInfo;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.PuntajeIndicadorInfo;
 
 import java.util.List;

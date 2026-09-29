@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import py.edu.odontounca.academiafoback.feature.nominadocente.application.usecase.BuscarDocentePorNominaUseCase;
 import py.edu.odontounca.academiafoback.feature.nominadocente.application.usecase.ConsultarDocentesPorNominaUseCase;
 import py.edu.odontounca.academiafoback.feature.nominadocente.application.usecase.ConsultarTodasNominasUseCase;
 import py.edu.odontounca.academiafoback.feature.nominadocente.presentation.dto.DocenteDTO;
@@ -27,6 +28,7 @@ public class NominaController {
     private final DocenteResponseMapper docenteMapper;
     private final ConsultarTodasNominasUseCase consultarTodasNominasUseCase;
     private final ConsultarDocentesPorNominaUseCase consultarDocentesPorNominaUseCase;
+    private final BuscarDocentePorNominaUseCase buscarDocentePorNominaUseCase;
 
     @GetMapping()
     public Page<NominaDTO> consultarTodas(
@@ -51,11 +53,19 @@ public class NominaController {
         return mapper.toResponsePage(result.nominasInfoPage());
     }
 
-    @GetMapping("/{id}/docentes")
+    @GetMapping("/{idNomina}/docentes")
     public List<DocenteDTO> consultarDocentes(@PathVariable Integer id){
         ConsultarDocentesPorNominaUseCase.Result result = this.consultarDocentesPorNominaUseCase.execute(
             new ConsultarDocentesPorNominaUseCase.Query(id)
         );
         return docenteMapper.toResponseList(result.docentesInfo());
+    }
+
+    @GetMapping("/{idNomina}/docentes/{idDocente}")
+    public DocenteDTO buscarDocente(@PathVariable Integer idNomina, @PathVariable Integer idDocente){
+        BuscarDocentePorNominaUseCase.Result result = this.buscarDocentePorNominaUseCase.execute(
+            new BuscarDocentePorNominaUseCase.Query(idNomina, idDocente)
+        );
+        return docenteMapper.toResponse(result.docenteInfo());
     }
 }

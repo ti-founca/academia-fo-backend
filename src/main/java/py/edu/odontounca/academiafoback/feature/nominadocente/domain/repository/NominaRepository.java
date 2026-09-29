@@ -14,4 +14,5 @@ public interface NominaRepository {
     Optional<Nomina> findById(Integer id);
     boolean existsById(Integer id);
     List<Docente> findDocentesByNominaId(Integer nominaId);
+    Optional<Docente> findDocenteByNominaIdAndDocenteId(Integer nominaId, Integer docenteId);
 }
