@@ -54,9 +54,9 @@ public class NominaController {
     }
 
     @GetMapping("/{idNomina}/docentes")
-    public List<DocenteDTO> consultarDocentes(@PathVariable Integer id){
+    public List<DocenteDTO> consultarDocentes(@PathVariable Integer idNomina){
         ConsultarDocentesPorNominaUseCase.Result result = this.consultarDocentesPorNominaUseCase.execute(
-            new ConsultarDocentesPorNominaUseCase.Query(id)
+            new ConsultarDocentesPorNominaUseCase.Query(idNomina)
         );
         return docenteMapper.toResponseList(result.docentesInfo());
     }

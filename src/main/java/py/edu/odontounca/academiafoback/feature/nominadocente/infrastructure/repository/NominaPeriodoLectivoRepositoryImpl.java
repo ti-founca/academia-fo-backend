@@ -19,4 +19,9 @@ public class NominaPeriodoLectivoRepositoryImpl implements PeriodoLectivoReposit
     public Optional<PeriodoLectivo> findById(Integer id) {
         return this.jpaRepository.findById(id).map(this.mapper::toDomain);
     }
+
+    @Override
+    public boolean existsById(Integer id) {
+        return this.jpaRepository.existsById(id);
+    }
 }
