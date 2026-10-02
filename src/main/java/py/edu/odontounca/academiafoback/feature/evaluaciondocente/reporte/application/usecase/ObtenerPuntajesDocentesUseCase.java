@@ -21,13 +21,13 @@ public class ObtenerPuntajesDocentesUseCase {
     private final EvaluacionQueryRepository evaluacionQueryRepository;
 
     public Result execute(Query query){
+        if(!this.nominaQueryRepository.existeNominaPorPeriodo(query.idPeriodo()))
+            throw new RuntimeException("No existen nóminas para el periodo " + query.idPeriodo());
         List<PuntajeDocenteInfo> puntajeList = this.nominaQueryRepository
                 .docentesPorPeriodo(query.idPeriodo())
                 .stream()
                 .map(personaInfo -> createPuntajeFrom(personaInfo))
                 .toList();
-        Integer idNomina = this.nominaQueryRepository.iddNominaPorPeriodo(query.idPeriodo());
-        if(idNomina == -1) throw new RuntimeException("ID de nomina no encontrada");
 
         List<Estamento> estamentoList = this.estamentoRepository.consultarTodos();
         BigDecimal porcentajeTotal = new BigDecimal("0");
@@ -36,7 +36,7 @@ public class ObtenerPuntajesDocentesUseCase {
             throw new RuntimeException("El porcentaje total de los estamentos debe sumar 100%, ahora suma " + porcentajeTotal);
 
         for(PuntajeDocenteInfo puntajeDocente: puntajeList){
-            List<MateriaTipoDocenteInfo> materiasDocenteList = this.nominaQueryRepository.materiasPorDocenteNomina(idNomina, puntajeDocente.id());
+            List<MateriaTipoDocenteInfo> materiasDocenteList = this.nominaQueryRepository.materiasPorDocentePeriodo(query.idPeriodo(), puntajeDocente.id());
             for(MateriaTipoDocenteInfo materia: materiasDocenteList){
                 BigDecimal puntajePonderadoFinal = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP);
                 for (Estamento estamento : estamentoList){

@@ -5,21 +5,29 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.model.NominaDetalleJPAModel;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.model.NominaJPAModel;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.repository.query.DocentePorPeriodoJPAQuery;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.model.PersonaJPAModel;
 
 import java.util.List;
 
-public interface NominaQueryJPARepository extends JpaRepository<NominaJPAModel, Integer>, DocentePorPeriodoJPAQuery {
-    @Query("SELECT n FROM ReporteNomina n WHERE n.idPeriodo = :idPeriodo ORDER BY n.id ASC")
-    List<NominaJPAModel> nominasPorIdPeriodo(@Param("idPeriodo") Integer idPeriodo);
+public interface NominaQueryJPARepository extends JpaRepository<NominaJPAModel, Integer> {
+    boolean existsByIdPeriodo(Integer idPeriodo);
+
+    @Query("""
+            SELECT DISTINCT doc FROM ReporteNomina n
+            JOIN n.detalles det
+            JOIN det.docente doc
+            WHERE n.idPeriodo = :idPeriodo
+            ORDER BY doc.apellidos, doc.nombres
+            """)
+    List<PersonaJPAModel> docentesPorPeriodo(@Param("idPeriodo") Integer idPeriodo);
 
     @Query("""
             SELECT det FROM ReporteNomina n
             JOIN n.detalles det
             JOIN FETCH det.materia mat
             JOIN FETCH det.tipoDocente
-            WHERE n.id = :idNomina AND det.docente.id = :idDocente
+            WHERE n.idPeriodo = :idPeriodo AND det.docente.id = :idDocente
             ORDER BY mat.descripcion ASC
             """)
-    List<NominaDetalleJPAModel> materiasPorDocenteNomina(@Param("idNomina") Integer idNomina, @Param("idDocente") Integer idDocente);
+    List<NominaDetalleJPAModel> materiasPorDocentePeriodo(@Param("idPeriodo") Integer idPeriodo, @Param("idDocente") Integer idDocente);
 }

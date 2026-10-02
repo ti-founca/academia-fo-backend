@@ -1,7 +1,5 @@
 package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.repository;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.contract.NominaQueryRepository;
@@ -10,8 +8,6 @@ import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.applic
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.mapper.MateriaJPAMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.mapper.PersonaJPAMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.mapper.TipoDocenteJPAMapper;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.model.NominaJPAModel;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.model.PersonaJPAModel;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.repository.NominaQueryJPARepository;
 
 import java.util.List;
@@ -27,28 +23,28 @@ public class NominaQueryRepositoryImpl implements NominaQueryRepository {
     @Override
     public List<PersonaInfo> docentesPorPeriodo(Integer idPeriodo) {
         return this.nominaQueryJPARepository
-                .obtenerDocentesPorPeriodo(idPeriodo)
+                .docentesPorPeriodo(idPeriodo)
                 .stream()
                 .map(this.personaJPAMapper::toInfo)
                 .toList();
     }
 
     @Override
-    public Integer iddNominaPorPeriodo(Integer idPeriodo) {
-        List<NominaJPAModel> nominasList = this.nominaQueryJPARepository.nominasPorIdPeriodo(idPeriodo);
-        if (nominasList.isEmpty()) return -1;
-        return nominasList.get(0).getId();
+    public boolean existeNominaPorPeriodo(Integer idPeriodo) {
+        return this.nominaQueryJPARepository.existsByIdPeriodo(idPeriodo);
     }
 
     @Override
-    public List<MateriaTipoDocenteInfo> materiasPorDocenteNomina(Integer idNomina, Integer idDocente) {
+    public List<MateriaTipoDocenteInfo> materiasPorDocentePeriodo(Integer idPeriodo, Integer idDocente) {
+        // Un docente puede repetir materia y tipo en distintas nóminas del mismo periodo
         return this.nominaQueryJPARepository
-                .materiasPorDocenteNomina(idNomina, idDocente)
+                .materiasPorDocentePeriodo(idPeriodo, idDocente)
                 .stream()
                 .map(det -> new MateriaTipoDocenteInfo(
                         this.materiaJPAMapper.toInfo(det.getMateria()),
                         this.tipoDocenteJPAMapper.toInfo(det.getTipoDocente())
                 ))
+                .distinct()
                 .toList();
     }
 }

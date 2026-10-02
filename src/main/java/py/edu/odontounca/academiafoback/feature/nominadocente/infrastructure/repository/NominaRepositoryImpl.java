@@ -60,6 +60,13 @@ public class NominaRepositoryImpl implements NominaRepository {
     }
 
     @Override
+    public List<Docente> findDocentesByPeriodoLectivoId(Integer periodoLectivoId) {
+        return this.jpaRepository.findDocentesByPeriodoLectivoId(periodoLectivoId).stream()
+                .map(this.docenteMapper::toDomain)
+                .toList();
+    }
+
+    @Override
     public Optional<Docente> findDocenteByNominaIdAndDocenteId(Integer nominaId, Integer docenteId) {
         return this.jpaRepository.findDocenteByNominaIdAndDocenteId(nominaId, docenteId)
                 .map(this.docenteMapper::toDomain);

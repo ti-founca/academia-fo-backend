@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface NominaQueryRepository {
     List<PersonaInfo> docentesPorPeriodo(Integer idPeriodo);
-    Integer iddNominaPorPeriodo(Integer idPeriodo);
-    List<MateriaTipoDocenteInfo> materiasPorDocenteNomina(Integer idNomina, Integer idDocente);
+    boolean existeNominaPorPeriodo(Integer idPeriodo);
+    List<MateriaTipoDocenteInfo> materiasPorDocentePeriodo(Integer idPeriodo, Integer idDocente);
 }

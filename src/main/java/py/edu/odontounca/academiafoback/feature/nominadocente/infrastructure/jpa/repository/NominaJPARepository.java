@@ -24,6 +24,15 @@ public interface NominaJPARepository extends JpaRepository<NominaJPAModel, Integ
             SELECT DISTINCT doc FROM NominaJPAModel n
             JOIN n.detalles det
             JOIN det.docente doc
+            WHERE n.periodo.id = :periodoLectivoId
+            ORDER BY doc.apellidos, doc.nombres
+            """)
+    List<DocenteJPAModel> findDocentesByPeriodoLectivoId(@Param("periodoLectivoId") Integer periodoLectivoId);
+
+    @Query("""
+            SELECT DISTINCT doc FROM NominaJPAModel n
+            JOIN n.detalles det
+            JOIN det.docente doc
             WHERE n.id = :nominaId AND doc.id = :docenteId
             """)
     Optional<DocenteJPAModel> findDocenteByNominaIdAndDocenteId(
