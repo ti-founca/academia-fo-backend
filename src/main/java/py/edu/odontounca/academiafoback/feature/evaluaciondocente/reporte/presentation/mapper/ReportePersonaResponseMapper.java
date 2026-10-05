@@ -5,6 +5,6 @@ import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.applic
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.dto.PersonaDTO;
 
 @Mapper(componentModel = "spring")
-public interface PersonaResponseMapper {
+public interface ReportePersonaResponseMapper {
     PersonaDTO toResponse(PersonaInfo personaInfo);
 }

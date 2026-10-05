@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@Entity
+@Entity(name = "ReportePersona")
 @Table(schema = "public", name = "personas")
 @Getter @Setter @RequiredArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)

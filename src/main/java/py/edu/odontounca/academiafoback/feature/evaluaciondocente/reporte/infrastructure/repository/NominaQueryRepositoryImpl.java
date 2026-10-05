@@ -6,7 +6,7 @@ import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.applic
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.MateriaTipoDocenteInfo;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.PersonaInfo;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.mapper.MateriaJPAMapper;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.mapper.PersonaJPAMapper;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.mapper.ReportePersonaJPAMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.mapper.TipoDocenteJPAMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.repository.NominaQueryJPARepository;
 
@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NominaQueryRepositoryImpl implements NominaQueryRepository {
     private final NominaQueryJPARepository  nominaQueryJPARepository;
-    private final PersonaJPAMapper personaJPAMapper;
+    private final ReportePersonaJPAMapper personaJPAMapper;
     private final MateriaJPAMapper materiaJPAMapper;
     private final TipoDocenteJPAMapper tipoDocenteJPAMapper;
 

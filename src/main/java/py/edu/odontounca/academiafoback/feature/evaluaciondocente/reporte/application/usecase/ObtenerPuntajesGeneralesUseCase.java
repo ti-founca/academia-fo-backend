@@ -5,13 +5,13 @@ import org.springframework.stereotype.Service;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.*;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.mapper.EstamentoResultMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.mapper.MateriaResultMapper;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.mapper.PersonaResultMapper;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.mapper.ReportePersonaResultMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.mapper.TipoDocenteResultMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.contract.EvaluacionQueryRepository;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.model.Estamento;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.repository.EstamentoRepository;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.repository.MateriaRepository;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.repository.PersonaRepository;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.repository.ReportePersonaRepository;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.repository.TipoDocenteRepository;
 import py.edu.odontounca.academiafoback.shared.exception.NotFoundError;
 
@@ -22,12 +22,12 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ObtenerPuntajesGeneralesUseCase {
     private final EstamentoRepository estamentoRepository;
-    private final PersonaRepository personaRepository;
+    private final ReportePersonaRepository personaRepository;
     private final MateriaRepository materiaRepository;
     private final TipoDocenteRepository tipoDocenteRepository;
     private final EvaluacionQueryRepository evaluacionQueryRepository;
 
-    private final PersonaResultMapper personaResultMapper;
+    private final ReportePersonaResultMapper personaResultMapper;
     private final MateriaResultMapper materiaResultMapper;
     private final TipoDocenteResultMapper tipoDocenteResultMapper;
     private final EstamentoResultMapper estamentoResultMapper;

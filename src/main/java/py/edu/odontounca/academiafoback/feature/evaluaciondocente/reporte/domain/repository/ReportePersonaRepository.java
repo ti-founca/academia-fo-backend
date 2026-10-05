@@ -4,6 +4,6 @@ import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain
 
 import java.util.Optional;
 
-public interface PersonaRepository {
+public interface ReportePersonaRepository {
     Optional<Persona> buscarPorId(Integer id);
 }

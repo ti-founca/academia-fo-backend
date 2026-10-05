@@ -10,7 +10,7 @@ public abstract class EvaluacionJPAMapper {
 
     @Autowired protected FormularioJPAMapper formularioJPAMapper;
     @Autowired protected MateriaJPAMapper materiaJPAMapper;
-    @Autowired protected PersonaJPAMapper personaJPAMapper;
+    @Autowired protected ReportePersonaJPAMapper personaJPAMapper;
     @Autowired protected DetalleEvaluacionJPAMapper detalleEvaluacionJPAMapper;
 
     public Evaluacion toDomain(EvaluacionJPAModel evaluacionJpa){

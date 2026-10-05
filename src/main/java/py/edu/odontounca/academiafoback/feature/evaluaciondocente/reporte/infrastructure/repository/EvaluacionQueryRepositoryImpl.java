@@ -22,7 +22,7 @@ public class EvaluacionQueryRepositoryImpl implements EvaluacionQueryRepository 
     private final EstamentoJPAMapper estamentoMapper;
     private final TipoDocenteJPAMapper tipoDocenteMapper;
     private final IndicadorJPAMapper indicadorMapper;
-    private final PersonaJPAMapper personaMapper;
+    private final ReportePersonaJPAMapper personaMapper;
     private final MateriaJPAMapper  materiaMapper;
 
     @Override

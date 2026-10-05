@@ -6,7 +6,7 @@ import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.model.PersonaJPAModel;
 
 @Mapper(componentModel = "spring")
-public interface PersonaJPAMapper {
+public interface ReportePersonaJPAMapper {
     default Persona toDomain(PersonaJPAModel personaJpa){
         return Persona.reconstruir(personaJpa.getId(), personaJpa.getNombres(), personaJpa.getApellidos(), personaJpa.getCi());
     };
