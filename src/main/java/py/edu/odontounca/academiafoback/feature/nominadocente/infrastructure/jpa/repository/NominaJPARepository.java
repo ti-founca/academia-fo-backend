@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import py.edu.odontounca.academiafoback.feature.nominadocente.infrastructure.jpa.model.DocenteJPAModel;
+import py.edu.odontounca.academiafoback.feature.nominadocente.infrastructure.jpa.model.MateriaJPAModel;
 import py.edu.odontounca.academiafoback.feature.nominadocente.infrastructure.jpa.model.NominaJPAModel;
 
 import java.util.List;
@@ -37,6 +38,18 @@ public interface NominaJPARepository extends JpaRepository<NominaJPAModel, Integ
             """)
     Optional<DocenteJPAModel> findDocenteByNominaIdAndDocenteId(
             @Param("nominaId") Integer nominaId,
+            @Param("docenteId") Integer docenteId
+    );
+
+    @Query("""
+            SELECT DISTINCT mat FROM NominaJPAModel n
+            JOIN n.detalles det
+            JOIN det.materia mat
+            WHERE n.periodo.id = :periodoLectivoId AND det.docente.id = :docenteId
+            ORDER BY mat.descripcion
+            """)
+    List<MateriaJPAModel> findMateriasByPeriodoLectivoIdAndDocenteId(
+            @Param("periodoLectivoId") Integer periodoLectivoId,
             @Param("docenteId") Integer docenteId
     );
 }

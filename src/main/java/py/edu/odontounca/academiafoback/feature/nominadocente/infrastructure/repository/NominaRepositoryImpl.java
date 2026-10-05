@@ -3,10 +3,12 @@ package py.edu.odontounca.academiafoback.feature.nominadocente.infrastructure.re
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import py.edu.odontounca.academiafoback.feature.nominadocente.domain.model.Docente;
+import py.edu.odontounca.academiafoback.feature.nominadocente.domain.model.Materia;
 import py.edu.odontounca.academiafoback.feature.nominadocente.domain.model.Nomina;
 import py.edu.odontounca.academiafoback.feature.nominadocente.domain.repository.NominaRepository;
 import py.edu.odontounca.academiafoback.feature.nominadocente.infrastructure.jpa.mapper.DocenteJPAMapper;
 import py.edu.odontounca.academiafoback.feature.nominadocente.infrastructure.jpa.mapper.NominaJPAMapper;
+import py.edu.odontounca.academiafoback.feature.nominadocente.infrastructure.jpa.mapper.NominaMateriaJPAMapper;
 import py.edu.odontounca.academiafoback.feature.nominadocente.infrastructure.jpa.model.NominaJPAModel;
 import py.edu.odontounca.academiafoback.feature.nominadocente.infrastructure.jpa.repository.NominaJPARepository;
 import py.edu.odontounca.academiafoback.shared.filter.Filter;
@@ -25,6 +27,7 @@ public class NominaRepositoryImpl implements NominaRepository {
     private final NominaJPARepository jpaRepository;
     private final NominaJPAMapper mapper;
     private final DocenteJPAMapper docenteMapper;
+    private final NominaMateriaJPAMapper materiaMapper;
     private final Map<String, String> fieldMapping = Map.of(
             "id", "id",
             "nombre", "nombre",
@@ -70,5 +73,12 @@ public class NominaRepositoryImpl implements NominaRepository {
     public Optional<Docente> findDocenteByNominaIdAndDocenteId(Integer nominaId, Integer docenteId) {
         return this.jpaRepository.findDocenteByNominaIdAndDocenteId(nominaId, docenteId)
                 .map(this.docenteMapper::toDomain);
+    }
+
+    @Override
+    public List<Materia> findMateriasByPeriodoLectivoIdAndDocenteId(Integer periodoLectivoId, Integer docenteId) {
+        return this.jpaRepository.findMateriasByPeriodoLectivoIdAndDocenteId(periodoLectivoId, docenteId).stream()
+                .map(this.materiaMapper::toDomain)
+                .toList();
     }
 }

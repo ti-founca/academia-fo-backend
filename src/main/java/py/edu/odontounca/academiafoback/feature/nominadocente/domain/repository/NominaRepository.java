@@ -1,6 +1,7 @@
 package py.edu.odontounca.academiafoback.feature.nominadocente.domain.repository;
 
 import py.edu.odontounca.academiafoback.feature.nominadocente.domain.model.Docente;
+import py.edu.odontounca.academiafoback.feature.nominadocente.domain.model.Materia;
 import py.edu.odontounca.academiafoback.feature.nominadocente.domain.model.Nomina;
 import py.edu.odontounca.academiafoback.shared.filter.Filter;
 import py.edu.odontounca.academiafoback.shared.pagination.Page;
@@ -16,4 +17,5 @@ public interface NominaRepository {
     List<Docente> findDocentesByNominaId(Integer nominaId);
     List<Docente> findDocentesByPeriodoLectivoId(Integer periodoLectivoId);
     Optional<Docente> findDocenteByNominaIdAndDocenteId(Integer nominaId, Integer docenteId);
+    List<Materia> findMateriasByPeriodoLectivoIdAndDocenteId(Integer periodoLectivoId, Integer docenteId);
 }
