@@ -7,6 +7,7 @@ import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.applic
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.*;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.model.Estamento;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.repository.EstamentoRepository;
+import py.edu.odontounca.academiafoback.shared.exception.NotFoundError;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -26,8 +27,11 @@ public class ObtenerPuntajesDocentesUseCase {
         List<PuntajeDocenteInfo> puntajeList = this.nominaQueryRepository
                 .docentesPorPeriodo(query.idPeriodo())
                 .stream()
+                .filter(personaInfo -> query.idDocente() == null || query.idDocente().equals(personaInfo.id()))
                 .map(personaInfo -> createPuntajeFrom(personaInfo))
                 .toList();
+        if(query.idDocente() != null && puntajeList.isEmpty())
+            throw new NotFoundError("Docente", query.idDocente());
 
         List<Estamento> estamentoList = this.estamentoRepository.consultarTodos();
         BigDecimal porcentajeTotal = new BigDecimal("0");
@@ -63,6 +67,6 @@ public class ObtenerPuntajesDocentesUseCase {
         return new  PuntajeDocenteInfo(personaInfo.id(), personaInfo.nombres(), personaInfo.apellidos(), personaInfo.ci(), new ArrayList<>());
     }
 
-    public static record Query(Integer idPeriodo){}
+    public static record Query(Integer idPeriodo, Integer idDocente){}
     public static record Result(List<PuntajeDocenteInfo> puntajes){}
 }

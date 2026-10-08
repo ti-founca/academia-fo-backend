@@ -22,8 +22,19 @@ public class ReporteDocenteController {
     @GetMapping("docentes")
     public List<PuntajeDocenteDTO> consultarPuntajesDocentes(@PathVariable Integer idPeriodo){
         ObtenerPuntajesDocentesUseCase.Result result = this.obtenerPuntajesDocentesUseCase.execute(
-                new ObtenerPuntajesDocentesUseCase.Query(idPeriodo)
+                new ObtenerPuntajesDocentesUseCase.Query(idPeriodo, null)
         );
         return this.puntajeDocenteResponseMapper.toResponseList(result.puntajes());
+    }
+
+    @GetMapping("docentes/{idDocente}")
+    public PuntajeDocenteDTO consultarPuntajesDocente(
+            @PathVariable Integer idPeriodo,
+            @PathVariable Integer idDocente
+    ){
+        ObtenerPuntajesDocentesUseCase.Result result = this.obtenerPuntajesDocentesUseCase.execute(
+                new ObtenerPuntajesDocentesUseCase.Query(idPeriodo, idDocente)
+        );
+        return this.puntajeDocenteResponseMapper.toResponse(result.puntajes().getFirst());
     }
 }
