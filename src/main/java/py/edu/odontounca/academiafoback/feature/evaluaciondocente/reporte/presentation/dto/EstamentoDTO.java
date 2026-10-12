@@ -7,4 +7,5 @@ import lombok.Setter;
 public class EstamentoDTO {
     private Integer id;
     private String descripcion;
+    private String porcentajePeso;
 }

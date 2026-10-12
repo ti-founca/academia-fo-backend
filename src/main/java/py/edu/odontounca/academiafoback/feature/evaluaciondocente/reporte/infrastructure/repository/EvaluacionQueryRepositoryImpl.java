@@ -4,9 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.EvaluadoInfo;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.contract.EvaluacionQueryRepository;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.PuntajeEstamentoInfo;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.PuntajeIndicadorInfo;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.dto.PuntajeEstamentoProjection;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.mapper.*;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.repository.EvaluacionQueryJPARepository;
 
@@ -52,8 +50,8 @@ public class EvaluacionQueryRepositoryImpl implements EvaluacionQueryRepository 
     }
 
     @Override
-    public List<PuntajeIndicadorInfo> obtenerPuntajeIndicadorPor(Integer idPeriodo, Integer idEstamento, Integer idTipoDocente, Integer idEvaluado) {
-        return this.evaluacionQueryJPARepository.obtenerPuntajeIndicador(idPeriodo, idEstamento, idTipoDocente, idEvaluado)
+    public List<PuntajeIndicadorInfo> obtenerPuntajeIndicadorPor(Integer idPeriodo, Integer idEstamento, Integer idTipoDocente, Integer idEvaluado, Integer idMateria) {
+        return this.evaluacionQueryJPARepository.obtenerPuntajeIndicador(idPeriodo, idEstamento, idTipoDocente, idEvaluado, idMateria)
             .stream()
             .map(puntajeProj -> new PuntajeIndicadorInfo(
                     this.estamentoMapper.toInfo(puntajeProj.estamento()),

@@ -1,7 +1,6 @@
 package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.contract;
 
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.EvaluadoInfo;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.PuntajeEstamentoInfo;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.PuntajeIndicadorInfo;
 
 import java.util.List;
@@ -11,5 +10,5 @@ public interface EvaluacionQueryRepository {
     List<EvaluadoInfo> consultarEvaluadosPor(Integer idPeriodo, Integer idEstamento);
     Double obtenerPromedioPor(Integer idPeriodo, Integer idEvaluado, Integer idMateria, Integer idTipoDocente, Integer idEstamento);
     Double obtenerCantidadPromediadaPor(Integer idPeriodo, Integer idEvaluado, Integer idMateria, Integer idTipoDocente);
-    List<PuntajeIndicadorInfo> obtenerPuntajeIndicadorPor(Integer idPeriodo, Integer idEstamento, Integer idTipoDocente, Integer idEvaluado);
+    List<PuntajeIndicadorInfo> obtenerPuntajeIndicadorPor(Integer idPeriodo, Integer idEstamento, Integer idTipoDocente, Integer idEvaluado, Integer idMateria);
 }

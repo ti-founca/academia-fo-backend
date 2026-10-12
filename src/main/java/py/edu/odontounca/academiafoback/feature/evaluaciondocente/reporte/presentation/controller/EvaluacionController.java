@@ -81,10 +81,11 @@ public class EvaluacionController {
             @RequestParam Integer idPeriodo,
             @RequestParam(required = false) Integer idEstamento,
             @RequestParam(required = false) Integer idTipoDocente,
-            @RequestParam(required = false) Integer idEvaluado
+            @RequestParam(required = false) Integer idEvaluado,
+            @RequestParam(required = false) Integer idMateria
     ){
         ObtenerPuntajesPorIndicadorUseCase.Result result = this.obtenerPuntajesPorIndicadorUseCase.execute(
-                new ObtenerPuntajesPorIndicadorUseCase.Query(idPeriodo, idEstamento, idTipoDocente, idEvaluado)
+                new ObtenerPuntajesPorIndicadorUseCase.Query(idPeriodo, idEstamento, idTipoDocente, idEvaluado, idMateria)
         );
         return this.puntajePorIndicadorResponseMapper.toResponseList(result.detalles());
     }

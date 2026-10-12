@@ -43,20 +43,38 @@ public class ObtenerPuntajesDocentesUseCase {
             List<MateriaTipoDocenteInfo> materiasDocenteList = this.nominaQueryRepository.materiasPorDocentePeriodo(query.idPeriodo(), puntajeDocente.id());
             for(MateriaTipoDocenteInfo materia: materiasDocenteList){
                 BigDecimal puntajePonderadoFinal = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP);
+                List<PuntajeDocenteInfo.PuntajeEstamento> puntajeEstamentoList = new ArrayList<>();
                 for (Estamento estamento : estamentoList){
-                    Double promedio = this.evaluacionQueryRepository.obtenerPromedioPor(
+                    BigDecimal puntaje = new BigDecimal(this.evaluacionQueryRepository.obtenerPromedioPor(
                             query.idPeriodo(),
                             puntajeDocente.id(),
                             materia.materia().id(),
                             materia.tipoDocente().id(),
                             estamento.getId()
-                    );
+                    ).toString());
                     BigDecimal ponderacion = estamento.getPorcentajePeso().divide(new BigDecimal("100"));
-                    BigDecimal puntajePonderado = new BigDecimal(promedio.toString()).multiply(ponderacion);
+                    BigDecimal puntajePonderado = puntaje.multiply(ponderacion).setScale(2, RoundingMode.HALF_UP);
                     puntajePonderadoFinal = puntajePonderadoFinal.add(puntajePonderado);
+
+                    List<PuntajeIndicadorInfo> puntajeIndicadorInfoList = this.evaluacionQueryRepository.obtenerPuntajeIndicadorPor(
+                            query.idPeriodo(),
+                            estamento.getId(),
+                            null,
+                            query.idDocente(),
+                            materia.materia().id()
+                    );
+
+                    PuntajeDocenteInfo.PuntajeEstamento puntajeEstamento = new PuntajeDocenteInfo.PuntajeEstamento(
+                            this.toInfo(estamento),
+                            puntaje,
+                            puntajePonderado,
+                            this.toPuntajeIndicadorList(puntajeIndicadorInfoList)
+                    );
+                    puntajeEstamentoList.add(puntajeEstamento);
+
                 }
                 puntajeDocente.puntajeMateriaList().add(
-                        new PuntajeMateriaInfo(materia.materia(), materia.tipoDocente(), puntajePonderadoFinal)
+                        new PuntajeDocenteInfo.PuntajeMateria(materia.materia(), materia.tipoDocente(), puntajePonderadoFinal, puntajeEstamentoList)
                 );
             }
         }
@@ -65,6 +83,22 @@ public class ObtenerPuntajesDocentesUseCase {
 
     private PuntajeDocenteInfo createPuntajeFrom(PersonaInfo personaInfo){
         return new  PuntajeDocenteInfo(personaInfo.id(), personaInfo.nombres(), personaInfo.apellidos(), personaInfo.ci(), new ArrayList<>());
+    }
+
+    private EstamentoInfo toInfo(Estamento estamento){
+        return new EstamentoInfo(estamento.getId(), estamento.getDescripcion(), estamento.getPorcentajePeso());
+    }
+
+    private PuntajeDocenteInfo.PuntajeIndicador toPuntajeIndicador(PuntajeIndicadorInfo puntajeIndicadorInfo){
+        return new PuntajeDocenteInfo.PuntajeIndicador(
+                puntajeIndicadorInfo.indicador(),
+                puntajeIndicadorInfo.puntaje(),
+                puntajeIndicadorInfo.cantidad()
+        );
+    }
+
+    private List<PuntajeDocenteInfo.PuntajeIndicador> toPuntajeIndicadorList(List<PuntajeIndicadorInfo> puntajeIndicadorInfoList){
+        return puntajeIndicadorInfoList.stream().map(this::toPuntajeIndicador).toList();
     }
 
     public static record Query(Integer idPeriodo, Integer idDocente){}

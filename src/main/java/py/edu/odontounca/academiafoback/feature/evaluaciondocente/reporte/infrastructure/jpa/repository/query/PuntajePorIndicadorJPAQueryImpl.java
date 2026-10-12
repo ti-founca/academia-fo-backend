@@ -18,19 +18,14 @@ public class PuntajePorIndicadorJPAQueryImpl implements PuntajePorIndicadorJPAQu
     @PersistenceContext
     private EntityManager entityManager;
 
-    /*@Query("SELECT de.indicador as indicador," +
-            "de.evaluacion.formulario.tipoEvaluacion.tipoDocente as tipoDocente," +
-            "de.evaluacion.formulario.tipoEvaluacion.estamento as estamento," +
-            "AVG(de.puntaje) as promedio," +
-            "COUNT(de) as cantidad " +
-            "FROM DetalleEvaluacionJPAModel de " +
-            "WHERE de.evaluacion.formulario.idPeriodo = :idPeriodo " +
-            "AND de.evaluacion.terminado = TRUE " +
-            "GROUP BY de.indicador, de.evaluacion.formulario.tipoEvaluacion.tipoDocente, de.evaluacion.formulario.tipoEvaluacion.estamento")
-    public List<PuntajeIndicadorProjection> obtenerPuntajeIndicador(Integer idPeriodo);*/
-
     @Override
-    public List<PuntajeIndicadorProjection> obtenerPuntajeIndicador(Integer idPeriodo, Integer idEstamento, Integer idTipoDocente, Integer idEvaluado) {
+    public List<PuntajeIndicadorProjection> obtenerPuntajeIndicador(
+            Integer idPeriodo,
+            Integer idEstamento,
+            Integer idTipoDocente,
+            Integer idEvaluado,
+            Integer idMateria
+    ) {
         CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
         CriteriaQuery query = cb.createQuery(PuntajeIndicadorProjection.class);
         Root<DetalleEvaluacionJPAModel> root = query.from(DetalleEvaluacionJPAModel.class);
@@ -44,6 +39,7 @@ public class PuntajePorIndicadorJPAQueryImpl implements PuntajePorIndicadorJPAQu
         Path<Integer> idPeriodoPath = root.get("evaluacion").get("formulario").get("idPeriodo");
         Path<Integer> idEvaluadoPath = root.get("evaluacion").get("evaluado").get("id");
         Path<Double> puntajePath = root.get("puntaje");
+        Path<Integer> idMateriaPath = root.get("evaluacion").get("materia").get("id");
 
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(cb.equal(idPeriodoPath, idPeriodo));
@@ -53,6 +49,7 @@ public class PuntajePorIndicadorJPAQueryImpl implements PuntajePorIndicadorJPAQu
         if (idTipoDocente != null) predicates.add(cb.equal(idTipoDocentePath, idTipoDocente));
         if (idEstamento != null) predicates.add(cb.equal(idEstamentoPath, idEstamento));
         if (idEvaluado != null) predicates.add(cb.equal(idEvaluadoPath, idEvaluado));
+        if (idMateria != null) predicates.add(cb.equal(idMateriaPath, idMateria));
 
         query.where(predicates.toArray(new Predicate[0]));
         query.select(cb.construct(
