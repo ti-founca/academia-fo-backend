@@ -2,9 +2,11 @@ package py.edu.odontounca.academiafoback.feature.periodolectivo.presentation.con
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import py.edu.odontounca.academiafoback.feature.periodolectivo.application.usecase.BuscarPeriodoLectivoPorIdUseCase;
 import py.edu.odontounca.academiafoback.feature.periodolectivo.application.usecase.ConsultarTodosPeriodosLectivosUseCase;
 import py.edu.odontounca.academiafoback.feature.periodolectivo.presentation.dto.PeriodoLectivoDTO;
 import py.edu.odontounca.academiafoback.feature.periodolectivo.presentation.mapper.PeriodoLectivoResponseMapper;
@@ -23,6 +25,7 @@ import java.util.Optional;
 public class PeriodoLectivoController {
     private final PeriodoLectivoResponseMapper mapper;
     private final ConsultarTodosPeriodosLectivosUseCase consultarPeriodosLectivosUseCase;
+    private final BuscarPeriodoLectivoPorIdUseCase buscarPeriodoLectivoPorIdUseCase;
 
     @GetMapping()
     public Page<PeriodoLectivoDTO> consultarTodos(
@@ -38,5 +41,13 @@ public class PeriodoLectivoController {
             )
         );
         return mapper.toResponsePage(result.periodosLectivosInfoPage());
+    }
+
+    @GetMapping("{id}")
+    public PeriodoLectivoDTO buscarPorId(@PathVariable("id") Integer id){
+        BuscarPeriodoLectivoPorIdUseCase.Result result = this.buscarPeriodoLectivoPorIdUseCase.execute(
+            new BuscarPeriodoLectivoPorIdUseCase.Query(id)
+        );
+        return this.mapper.toResponse(result.periodoLectivo());
     }
 }
