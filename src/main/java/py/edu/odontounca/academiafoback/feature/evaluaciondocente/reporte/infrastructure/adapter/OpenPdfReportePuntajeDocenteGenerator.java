@@ -84,8 +84,12 @@ public class OpenPdfReportePuntajeDocenteGenerator implements ReportePuntajeDoce
             if (docente.puntajeMateriaList().isEmpty()) {
                 document.add(new Paragraph("El docente no tiene materias asignadas en el período.", FUENTE_VACIO));
             }
-            for (PuntajeDocenteInfo.PuntajeMateria materia : docente.puntajeMateriaList()) {
-                this.agregarMateria(document, materia);
+            for (int i = 0; i < docente.puntajeMateriaList().size(); i++) {
+                // Cada materia (a partir de la segunda) inicia en una página nueva
+                if (i > 0) {
+                    document.newPage();
+                }
+                this.agregarMateria(document, docente.puntajeMateriaList().get(i));
             }
 
             document.close();
@@ -97,9 +101,9 @@ public class OpenPdfReportePuntajeDocenteGenerator implements ReportePuntajeDoce
     }
 
     private void agregarEncabezado(Document document, String periodo) {
-        Paragraph institucion = new Paragraph("Facultad de Odontología – UNCA", FUENTE_INSTITUCION);
+        /*Paragraph institucion = new Paragraph("Facultad de Odontología – UNCA", FUENTE_INSTITUCION);
         institucion.setAlignment(Element.ALIGN_CENTER);
-        document.add(institucion);
+        document.add(institucion);*/
 
         Paragraph titulo = new Paragraph("REPORTE DE EVALUACIÓN DOCENTE", FUENTE_TITULO);
         titulo.setAlignment(Element.ALIGN_CENTER);

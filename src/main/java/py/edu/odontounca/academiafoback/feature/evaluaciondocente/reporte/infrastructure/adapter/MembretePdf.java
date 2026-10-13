@@ -17,11 +17,11 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * Dibuja en cada página la imagen de cabecera, la imagen de pie (ambas opcionales)
- * y la línea "Generado: ... / Pág. X de Y". Se crea una instancia por documento.
+ * y los textos "Generado: ..." / "Pág. X de Y" (la imagen de pie va entre ambos). Se crea una instancia por documento.
  */
 class MembretePdf extends PdfPageEventHelper {
     private static final float MARGEN_LATERAL = 56f;
-    private static final float DISTANCIA_BORDE = 28f;      // ~10 mm desde el borde de la hoja
+    private static final float DISTANCIA_BORDE = 14f;      // ~5 mm desde el borde de la hoja
     private static final float SEPARACION = 12f;
     private static final float ALTO_TEXTO_PIE = 10f;
     private static final float ALTO_MAXIMO_IMAGEN = 60f;
@@ -39,15 +39,19 @@ class MembretePdf extends PdfPageEventHelper {
     private PdfTemplate totalPaginas;
 
     MembretePdf(Image cabecera, Image pie, LocalDateTime fechaGeneracion) {
-        float anchoUtil = PageSize.A4.getWidth() - 2 * MARGEN_LATERAL;
-        this.cabecera = escalar(cabecera, anchoUtil);
-        this.pie = escalar(pie, anchoUtil);
         this.fechaGeneracion = FORMATO_FECHA.format(fechaGeneracion);
         try {
             this.fuente = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.NOT_EMBEDDED);
         } catch (IOException ex) {
             throw new IllegalStateException("No se pudo crear la fuente del reporte PDF", ex);
         }
+        float anchoUtil = PageSize.A4.getWidth() - 2 * MARGEN_LATERAL;
+        this.cabecera = escalar(cabecera, anchoUtil);
+        // La imagen de pie va entre los textos de los extremos, centrada; se reserva el mismo ancho a cada lado
+        float anchoTextoGenerado = this.fuente.getWidthPoint(this.textoGenerado(), TAMANHO_FUENTE);
+        float anchoTextoPagina = this.fuente.getWidthPoint("Pág. 999 de ", TAMANHO_FUENTE) + ANCHO_TOTAL_PAGINAS;
+        float reservaLateral = Math.max(anchoTextoGenerado, anchoTextoPagina) + SEPARACION;
+        this.pie = escalar(pie, anchoUtil - 2 * reservaLateral);
     }
 
     /** Margen superior que necesita el documento para no superponerse con la cabecera. */
@@ -56,11 +60,18 @@ class MembretePdf extends PdfPageEventHelper {
         return DISTANCIA_BORDE + this.cabecera.getScaledHeight() + SEPARACION;
     }
 
-    /** Margen inferior que necesita el documento para no superponerse con el pie. */
+    /** Margen inferior que necesita el documento para no superponerse con el pie (franja + línea + separación). */
     float altoPie() {
-        float alto = DISTANCIA_BORDE + ALTO_TEXTO_PIE + SEPARACION;
-        if (this.pie != null) alto += this.pie.getScaledHeight() + SEPARACION / 2;
-        return alto;
+        return DISTANCIA_BORDE + this.altoFranjaPie() + SEPARACION / 2 + SEPARACION;
+    }
+
+    /** Alto de la franja inferior donde van los textos y la imagen de pie. */
+    private float altoFranjaPie() {
+        return this.pie == null ? ALTO_TEXTO_PIE : Math.max(ALTO_TEXTO_PIE, this.pie.getScaledHeight());
+    }
+
+    private String textoGenerado() {
+        return "Generado: " + this.fechaGeneracion;
     }
 
     @Override
@@ -82,24 +93,31 @@ class MembretePdf extends PdfPageEventHelper {
             cb.addImage(this.cabecera);
         }
 
-        float yTexto = pagina.getBottom() + DISTANCIA_BORDE;
+        // Franja inferior: "Generado" a la izquierda, imagen de pie al centro y número de página a la derecha
+        float yFranja = pagina.getBottom() + DISTANCIA_BORDE;
+        float altoFranja = this.altoFranjaPie();
         if (this.pie != null) {
             float x = (pagina.getWidth() - this.pie.getScaledWidth()) / 2;
-            this.pie.setAbsolutePosition(x, yTexto + ALTO_TEXTO_PIE + SEPARACION / 2);
+            float y = yFranja + (altoFranja - this.pie.getScaledHeight()) / 2;
+            this.pie.setAbsolutePosition(x, y);
             cb.addImage(this.pie);
         }
+        // Línea base de los textos para que queden centrados verticalmente en la franja
+        float altoMayusculas = this.fuente.getFontDescriptor(BaseFont.CAPHEIGHT, TAMANHO_FUENTE);
+        float yTexto = yFranja + (altoFranja - altoMayusculas) / 2;
+        float yLinea = yFranja + altoFranja + SEPARACION / 2;
 
         cb.saveState();
         cb.setColorStroke(COLOR_LINEA);
         cb.setLineWidth(0.5f);
-        cb.moveTo(izquierda, yTexto + ALTO_TEXTO_PIE);
-        cb.lineTo(derecha, yTexto + ALTO_TEXTO_PIE);
+        cb.moveTo(izquierda, yLinea);
+        cb.lineTo(derecha, yLinea);
         cb.stroke();
 
         cb.setColorFill(COLOR_TEXTO);
         cb.beginText();
         cb.setFontAndSize(this.fuente, TAMANHO_FUENTE);
-        cb.showTextAligned(PdfContentByte.ALIGN_LEFT, "Generado: " + this.fechaGeneracion, izquierda, yTexto, 0);
+        cb.showTextAligned(PdfContentByte.ALIGN_LEFT, this.textoGenerado(), izquierda, yTexto, 0);
         cb.showTextAligned(PdfContentByte.ALIGN_RIGHT, "Pág. " + writer.getPageNumber() + " de ", derecha - ANCHO_TOTAL_PAGINAS, yTexto, 0);
         cb.endText();
         cb.restoreState();
