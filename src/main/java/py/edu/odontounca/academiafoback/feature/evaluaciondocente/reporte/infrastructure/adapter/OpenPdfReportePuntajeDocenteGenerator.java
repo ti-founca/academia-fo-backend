@@ -110,7 +110,7 @@ public class OpenPdfReportePuntajeDocenteGenerator implements ReportePuntajeDoce
         titulo.setSpacingBefore(2f);
         document.add(titulo);
 
-        Paragraph subtitulo = new Paragraph("Período: " + periodo, FUENTE_SUBTITULO);
+        Paragraph subtitulo = new Paragraph(periodo, FUENTE_SUBTITULO);
         subtitulo.setAlignment(Element.ALIGN_CENTER);
         subtitulo.setSpacingAfter(12f);
         document.add(subtitulo);
