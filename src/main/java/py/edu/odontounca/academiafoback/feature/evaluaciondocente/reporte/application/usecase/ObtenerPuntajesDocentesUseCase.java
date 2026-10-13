@@ -60,7 +60,7 @@ public class ObtenerPuntajesDocentesUseCase {
                             query.idPeriodo(),
                             estamento.getId(),
                             null,
-                            query.idDocente(),
+                            puntajeDocente.id(),
                             materia.materia().id()
                     );
 
