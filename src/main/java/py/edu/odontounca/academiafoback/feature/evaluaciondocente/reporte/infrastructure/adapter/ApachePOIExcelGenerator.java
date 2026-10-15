@@ -74,9 +74,9 @@ public class ApachePOIExcelGenerator implements ExcelGenerator {
     private void fillTable(Workbook workbook, Sheet sheet, List<PuntajeGeneralInfo> detalles){
         CellStyle style = workbook.createCellStyle();
         style.setWrapText(true);
-        for(int i = 1; i < detalles.size(); i++){
-            PuntajeGeneralInfo evaluacion = detalles.get(i-1);
-            Row row = sheet.createRow(i);
+        for(int i = 0; i < detalles.size(); i++){
+            PuntajeGeneralInfo evaluacion = detalles.get(i);
+            Row row = sheet.createRow(i + 1);
             Cell cell0 = row.createCell(0);
             cell0.setCellValue(evaluacion.evaluado().nombres()+ " " + evaluacion.evaluado().apellidos());
             cell0.setCellStyle(style);
