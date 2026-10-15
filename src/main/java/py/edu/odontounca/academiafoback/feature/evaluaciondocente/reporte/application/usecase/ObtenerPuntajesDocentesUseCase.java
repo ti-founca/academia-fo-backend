@@ -22,8 +22,11 @@ public class ObtenerPuntajesDocentesUseCase {
     private final EvaluacionQueryRepository evaluacionQueryRepository;
 
     public Result execute(Query query){
-        if(!this.nominaQueryRepository.existeNominaPorPeriodo(query.idPeriodo()))
-            throw new RuntimeException("No existen nóminas para el periodo " + query.idPeriodo());
+        // Un periodo sin nóminas no es un error: simplemente no tiene puntajes
+        if(!this.nominaQueryRepository.existeNominaPorPeriodo(query.idPeriodo())){
+            if(query.idDocente() != null) throw new NotFoundError("Docente", query.idDocente());
+            return new Result(List.of());
+        }
         List<PuntajeDocenteInfo> puntajeList = this.nominaQueryRepository
                 .docentesPorPeriodo(query.idPeriodo())
                 .stream()
