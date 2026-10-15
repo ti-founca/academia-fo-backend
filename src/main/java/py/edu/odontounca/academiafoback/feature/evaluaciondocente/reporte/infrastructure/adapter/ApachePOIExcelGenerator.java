@@ -69,7 +69,7 @@ public class ApachePOIExcelGenerator implements ExcelGenerator {
             cell0.setCellStyle(style);
 
             Cell cell1 = row.createCell(1);
-            cell1.setCellValue(evaluacion.materia().codigo());
+            cell1.setCellValue(evaluacion.materia().codigo() != null ? evaluacion.materia().codigo().strip() : "");
             cell1.setCellStyle(style);
 
             Cell cell2 = row.createCell(2);

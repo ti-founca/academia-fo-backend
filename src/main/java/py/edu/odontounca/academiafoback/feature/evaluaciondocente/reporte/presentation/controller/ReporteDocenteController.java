@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.service.ExportarPuntajeDocentePdfService;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.service.ExportarPuntajesPorCursoExcelService;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.usecase.ObtenerPuntajesDocentesUseCase;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.usecase.ObtenerPuntajesGeneralesUseCase;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.dto.PuntajeDocenteDTO;
@@ -23,6 +24,7 @@ public class ReporteDocenteController {
     private final ObtenerPuntajesDocentesUseCase obtenerPuntajesDocentesUseCase;
     private final ObtenerPuntajesGeneralesUseCase obtenerPuntajesGeneralesUseCase;
     private final ExportarPuntajeDocentePdfService exportarPuntajeDocentePdfService;
+    private final ExportarPuntajesPorCursoExcelService exportarPuntajesPorCursoExcelService;
     private final PuntajeDocenteResponseMapper puntajeDocenteResponseMapper;
     private final PuntajeDocenteMateriaResponseMapper puntajeDocenteMateriaResponseMapper;
 
@@ -65,5 +67,19 @@ public class ReporteDocenteController {
                 new ObtenerPuntajesGeneralesUseCase.Query(idPeriodo)
         );
         return this.puntajeDocenteMateriaResponseMapper.toResponseList(result.detalles());
+    }
+
+    @GetMapping("docentes-materias/exportar")
+    public ResponseEntity<byte[]> exportarExcelPuntajesPorCurso(
+            @PathVariable Integer idPeriodo,
+            @RequestParam(required = false) Integer idTipoDocente
+    ){
+        byte[] excel = this.exportarPuntajesPorCursoExcelService.exportar(
+                new ExportarPuntajesPorCursoExcelService.Query(idPeriodo, idTipoDocente)
+        );
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=puntaje-por-curso.xlsx");
+        return new ResponseEntity<>(excel, headers, HttpStatus.OK);
     }
 }
