@@ -17,6 +17,7 @@ import java.util.List;
 @Component
 public class ApachePOIExcelGenerator implements ExcelGenerator {
     private static final Logger LOG = LoggerFactory.getLogger(ApachePOIExcelGenerator.class);
+    private static final String[] TITULOS = {"Docente", "Código", "Materia", "Curso", "Tipo Docente", "Puntaje"};
 
     @Override
     public byte[] generate(List<PuntajeGeneralInfo> detalles) {
@@ -50,25 +51,11 @@ public class ApachePOIExcelGenerator implements ExcelGenerator {
         font.setBold(true);
         headerStyle.setFont(font);
 
-        Cell headerCell = header.createCell(0);
-        headerCell.setCellValue("Docente");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(1);
-        headerCell.setCellValue("Código");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(2);
-        headerCell.setCellValue("Materia");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(3);
-        headerCell.setCellValue("Tipo Docente");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(4);
-        headerCell.setCellValue("Puntaje");
-        headerCell.setCellStyle(headerStyle);
+        for(int i = 0; i < TITULOS.length; i++){
+            Cell headerCell = header.createCell(i);
+            headerCell.setCellValue(TITULOS[i]);
+            headerCell.setCellStyle(headerStyle);
+        }
     }
 
     private void fillTable(Workbook workbook, Sheet sheet, List<PuntajeGeneralInfo> detalles){
@@ -90,20 +77,20 @@ public class ApachePOIExcelGenerator implements ExcelGenerator {
             cell2.setCellStyle(style);
 
             Cell cell3 = row.createCell(3);
-            cell3.setCellValue(evaluacion.tipoDocente().descripcion());
+            cell3.setCellValue(evaluacion.materia().curso().descripcion());
             cell3.setCellStyle(style);
 
             Cell cell4 = row.createCell(4);
-            cell4.setCellValue(evaluacion.promedioGeneral().setScale(2, RoundingMode.HALF_UP).toString());
+            cell4.setCellValue(evaluacion.tipoDocente().descripcion());
             cell4.setCellStyle(style);
+
+            Cell cell5 = row.createCell(5);
+            cell5.setCellValue(evaluacion.promedioGeneral().setScale(2, RoundingMode.HALF_UP).toString());
+            cell5.setCellStyle(style);
         }
     }
 
     private void setColumnSizes(Sheet sheet){
-        sheet.autoSizeColumn(0);
-        sheet.autoSizeColumn(1);
-        sheet.autoSizeColumn(2);
-        sheet.autoSizeColumn(3);
-        sheet.autoSizeColumn(4);
+        for(int i = 0; i < TITULOS.length; i++) sheet.autoSizeColumn(i);
     }
 }
