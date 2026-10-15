@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.MateriaInfo;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.dto.MateriaDTO;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = ReporteCursoResponseMapper.class)
 public interface MateriaResponseMapper {
     MateriaDTO toDTO(MateriaInfo materiaInfo);
 }

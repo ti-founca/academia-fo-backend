@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = ReporteCursoResponseMapper.class)
 public interface PuntajeDocenteResponseMapper {
 
     @Mapping(target = "idDocente", source = "id")

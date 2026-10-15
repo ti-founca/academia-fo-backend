@@ -8,7 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.service.ExportarPuntajeDocentePdfService;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.usecase.ObtenerPuntajesDocentesUseCase;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.usecase.ObtenerPuntajesGeneralesUseCase;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.dto.PuntajeDocenteDTO;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.dto.PuntajeDocenteMateriaDTO;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.mapper.PuntajeDocenteMateriaResponseMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.presentation.mapper.PuntajeDocenteResponseMapper;
 
 import java.util.List;
@@ -18,8 +21,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReporteDocenteController {
     private final ObtenerPuntajesDocentesUseCase obtenerPuntajesDocentesUseCase;
+    private final ObtenerPuntajesGeneralesUseCase obtenerPuntajesGeneralesUseCase;
     private final ExportarPuntajeDocentePdfService exportarPuntajeDocentePdfService;
     private final PuntajeDocenteResponseMapper puntajeDocenteResponseMapper;
+    private final PuntajeDocenteMateriaResponseMapper puntajeDocenteMateriaResponseMapper;
 
     @GetMapping("docentes")
     public List<PuntajeDocenteDTO> consultarPuntajesDocentes(@PathVariable Integer idPeriodo){
@@ -52,5 +57,13 @@ public class ReporteDocenteController {
         headers.setContentType(MediaType.APPLICATION_PDF);
         headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=puntaje-docente-" + idDocente + ".pdf");
         return new ResponseEntity<>(pdf, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("docentes-materias")
+    public List<PuntajeDocenteMateriaDTO> consultarPuntajesDocentesMaterias(@PathVariable Integer idPeriodo){
+        ObtenerPuntajesGeneralesUseCase.Result result = this.obtenerPuntajesGeneralesUseCase.execute(
+                new ObtenerPuntajesGeneralesUseCase.Query(idPeriodo)
+        );
+        return this.puntajeDocenteMateriaResponseMapper.toResponseList(result.detalles());
     }
 }
