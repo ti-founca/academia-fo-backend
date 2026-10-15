@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.service.ExportarPuntajesGeneralesExcelService;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.service.ExportarPuntajesPorIndicadorExcelService;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.usecase.BuscarEvaluacionPorIdUseCase;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.usecase.ObtenerPuntajesPorEstamentoUseCase;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.usecase.ObtenerPuntajesPorIndicadorUseCase;
@@ -27,6 +28,7 @@ public class EvaluacionController {
     private final ObtenerPuntajesPorEstamentoUseCase obtenerPuntajesPorEstamentoUseCase;
     private final ExportarPuntajesGeneralesExcelService exportarPuntajesGeneralesExcelService;
     private final ObtenerPuntajesPorIndicadorUseCase obtenerPuntajesPorIndicadorUseCase;
+    private final ExportarPuntajesPorIndicadorExcelService exportarPuntajesPorIndicadorExcelService;
 
     private final EvaluacionResponseMapper evaluacionMapper;
     private final PuntajePorEstamentoResponseMapper puntajePorEstamentoResponseMapper;
@@ -75,6 +77,20 @@ public class EvaluacionController {
                 new ObtenerPuntajesPorIndicadorUseCase.Query(idPeriodo, idEstamento, idTipoDocente, idEvaluado, idMateria)
         );
         return this.puntajePorIndicadorResponseMapper.toResponseList(result.detalles());
+    }
+
+    @GetMapping("reportes/indicador/exportar")
+    public ResponseEntity<byte[]> generarReporteIndicadorExcel(
+            @RequestParam Integer idPeriodo,
+            @RequestParam(required = false) Integer idTipoDocente
+    ){
+        byte[] excel = this.exportarPuntajesPorIndicadorExcelService.exportar(
+                new ExportarPuntajesPorIndicadorExcelService.Query(idPeriodo, idTipoDocente)
+        );
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=puntaje-por-estamento.xlsx");
+        return new ResponseEntity<>(excel, headers, HttpStatus.OK);
     }
 
 }

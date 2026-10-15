@@ -17,7 +17,7 @@ import java.util.List;
 public class EvaluacionQueryRepositoryImpl implements EvaluacionQueryRepository {
     private final EvaluacionQueryJPARepository evaluacionQueryJPARepository;
 
-    private final EstamentoJPAMapper estamentoMapper;
+    private final ReporteEstamentoJPAMapper estamentoMapper;
     private final TipoDocenteJPAMapper tipoDocenteMapper;
     private final IndicadorJPAMapper indicadorMapper;
     private final ReportePersonaJPAMapper personaMapper;

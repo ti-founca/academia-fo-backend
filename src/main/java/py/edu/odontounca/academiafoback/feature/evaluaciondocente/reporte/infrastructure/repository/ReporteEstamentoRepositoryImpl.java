@@ -4,17 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.model.Estamento;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.repository.EstamentoRepository;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.mapper.EstamentoJPAMapper;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.repository.EstamentoJPARepository;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.mapper.ReporteEstamentoJPAMapper;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infrastructure.jpa.repository.ReporteEstamentoJPARepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class EstamentoRepositoryImpl implements EstamentoRepository {
-    private final EstamentoJPARepository jpaRepository;
-    private final EstamentoJPAMapper mapper;
+public class ReporteEstamentoRepositoryImpl implements EstamentoRepository {
+    private final ReporteEstamentoJPARepository jpaRepository;
+    private final ReporteEstamentoJPAMapper mapper;
 
     @Override
     public List<Estamento> consultarTodos() {

@@ -5,6 +5,6 @@ import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.applic
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.model.Estamento;
 
 @Mapper(componentModel = "spring")
-public interface EstamentoResultMapper {
+public interface ReporteEstamentoResultMapper {
     EstamentoInfo toInfo(Estamento estamento);
 }

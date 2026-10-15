@@ -10,7 +10,7 @@ import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infras
 import java.math.BigDecimal;
 
 @Mapper(componentModel = "spring")
-public interface EstamentoJPAMapper {
+public interface ReporteEstamentoJPAMapper {
     default Estamento toDomain(EstamentoJPAModel estamentoJpa){
         return Estamento.reconstruir(
                 estamentoJpa.getId(),
