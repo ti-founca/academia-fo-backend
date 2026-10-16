@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import py.edu.odontounca.academiafoback.feature.autenticacion.application.exception.CredencialesInvalidasError;
+import py.edu.odontounca.academiafoback.feature.autenticacion.application.exception.NoAutenticadoError;
 import py.edu.odontounca.academiafoback.feature.autenticacion.application.exception.TokenInvalidoError;
 
 import java.util.Map;
@@ -20,7 +21,7 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(ex.getMessage(), Map.copyOf(ex.getDetails()));
     }
 
-    @ExceptionHandler({CredencialesInvalidasError.class, TokenInvalidoError.class})
+    @ExceptionHandler({CredencialesInvalidasError.class, TokenInvalidoError.class, NoAutenticadoError.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public ErrorResponse handleUnauthorizedException(ApplicationError ex){

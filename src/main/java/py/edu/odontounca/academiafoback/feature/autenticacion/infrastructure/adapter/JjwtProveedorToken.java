@@ -16,6 +16,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Function;
 
 @Component
 @EnableConfigurationProperties(JwtProperties.class)
@@ -71,7 +72,26 @@ public class JjwtProveedorToken implements ProveedorToken {
     }
 
     @Override
+    public Optional<ClaimsAccess> leerAccess(String token) {
+        return this.parsear(token, TIPO_ACCESS, claims -> new ClaimsAccess(
+                UUID.fromString(claims.getId()),
+                Integer.valueOf(claims.getSubject()),
+                claims.get("correo", String.class),
+                claims.get("nombre", String.class),
+                claims.get("apellido", String.class)
+        ));
+    }
+
+    @Override
     public Optional<ClaimsRefresh> leerRefresh(String token) {
+        return this.parsear(token, TIPO_REFRESH, claims -> new ClaimsRefresh(
+                UUID.fromString(claims.getId()),
+                Integer.valueOf(claims.getSubject())
+        ));
+    }
+
+    /** Valida firma, expiración y que el claim «tipo» coincida con el esperado; vacío si algo falla. */
+    private <T> Optional<T> parsear(String token, String tipoEsperado, Function<Claims, T> mapeo) {
         if(token == null || token.isBlank()) return Optional.empty();
         try {
             Claims claims = Jwts.parser()
@@ -79,12 +99,9 @@ public class JjwtProveedorToken implements ProveedorToken {
                     .build()
                     .parseSignedClaims(token)
                     .getPayload();
-            if(!TIPO_REFRESH.equals(claims.get(CLAIM_TIPO, String.class))) return Optional.empty();
-            return Optional.of(new ClaimsRefresh(
-                    UUID.fromString(claims.getId()),
-                    Integer.valueOf(claims.getSubject())
-            ));
-        } catch (JwtException | IllegalArgumentException ex) {
+            if(!tipoEsperado.equals(claims.get(CLAIM_TIPO, String.class))) return Optional.empty();
+            return Optional.of(mapeo.apply(claims));
+        } catch (JwtException | IllegalArgumentException | NullPointerException ex) {
             return Optional.empty();
         }
     }

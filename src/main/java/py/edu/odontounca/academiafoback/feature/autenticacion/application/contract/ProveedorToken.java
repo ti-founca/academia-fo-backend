@@ -9,9 +9,12 @@ import java.util.UUID;
 public interface ProveedorToken {
     TokenEmitido generarAccess(Usuario usuario, Instant ahora);
     TokenEmitido generarRefresh(Usuario usuario, Instant ahora);
+    /** Valida firma, expiración y tipo; vacío si el token no es un access token válido. */
+    Optional<ClaimsAccess> leerAccess(String token);
     /** Valida firma, expiración y tipo; vacío si el token no es un refresh token válido. */
     Optional<ClaimsRefresh> leerRefresh(String token);
 
     record TokenEmitido(String token, UUID jti, Instant emitidoEn, Instant expiraEn){ }
+    record ClaimsAccess(UUID jti, Integer idUsuario, String correo, String nombre, String apellido){ }
     record ClaimsRefresh(UUID jti, Integer idUsuario){ }
 }

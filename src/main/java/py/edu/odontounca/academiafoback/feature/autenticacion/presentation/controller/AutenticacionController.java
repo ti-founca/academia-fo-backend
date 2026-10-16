@@ -2,17 +2,21 @@ package py.edu.odontounca.academiafoback.feature.autenticacion.presentation.cont
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import py.edu.odontounca.academiafoback.feature.autenticacion.application.dto.info.UsuarioAutenticadoInfo;
 import py.edu.odontounca.academiafoback.feature.autenticacion.application.usecase.CerrarSesionUseCase;
 import py.edu.odontounca.academiafoback.feature.autenticacion.application.usecase.IniciarSesionUseCase;
 import py.edu.odontounca.academiafoback.feature.autenticacion.application.usecase.RefrescarTokenUseCase;
+import py.edu.odontounca.academiafoback.feature.autenticacion.presentation.annotation.UsuarioActual;
 import py.edu.odontounca.academiafoback.feature.autenticacion.presentation.dto.LoginRequestDTO;
 import py.edu.odontounca.academiafoback.feature.autenticacion.presentation.dto.RefreshRequestDTO;
 import py.edu.odontounca.academiafoback.feature.autenticacion.presentation.dto.TokensDTO;
+import py.edu.odontounca.academiafoback.feature.autenticacion.presentation.dto.UsuarioAutenticadoDTO;
 import py.edu.odontounca.academiafoback.feature.autenticacion.presentation.mapper.AutenticacionResponseMapper;
 
 @RestController
@@ -44,5 +48,10 @@ public class AutenticacionController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void logout(@RequestBody RefreshRequestDTO request){
         this.cerrarSesionUseCase.execute(new CerrarSesionUseCase.Query(request.refreshToken()));
+    }
+
+    @GetMapping("/me")
+    public UsuarioAutenticadoDTO me(@UsuarioActual UsuarioAutenticadoInfo usuario){
+        return this.mapper.toResponse(usuario);
     }
 }
