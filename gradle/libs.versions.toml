@@ -4,6 +4,7 @@ mapstruct = "1.6.3"
 lombok-mapstruct-binding = "0.2.0"
 apache-poi = "5.5.1"
 openpdf = "3.0.5"
+jjwt = "0.12.6"
 
 [libraries]
 mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
@@ -13,3 +14,6 @@ lombok-mapstruct-binding = { group = "org.projectlombok", name = "lombok-mapstru
 apache-poi = { group = "org.apache.poi", name= "poi", version.ref = "apache-poi" }
 apache-poi-ooxml = { group = "org.apache.poi", name = "poi-ooxml", version.ref = "apache-poi" }
 openpdf = { group = "com.github.librepdf", name = "openpdf", version.ref = "openpdf" }
+jjwt-api = { group = "io.jsonwebtoken", name = "jjwt-api", version.ref = "jjwt" }
+jjwt-impl = { group = "io.jsonwebtoken", name = "jjwt-impl", version.ref = "jjwt" }
+jjwt-jackson = { group = "io.jsonwebtoken", name = "jjwt-jackson", version.ref = "jjwt" }

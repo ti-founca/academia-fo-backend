@@ -17,7 +17,7 @@ Backend de **AcademiaFO** (Facultad de Odontología – UNCA). API REST sobre un
 ./gradlew compileJava  # verificación rápida (MapStruct/Lombok generan código aquí)
 ```
 
-Variables de entorno requeridas: `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`.
+Variables de entorno requeridas: `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `JWT_SECRET` (≥ 32 bytes; p. ej. `openssl rand -base64 48`).
 
 ## Base de datos
 
