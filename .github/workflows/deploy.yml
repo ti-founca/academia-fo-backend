@@ -62,6 +62,18 @@ jobs:
           printf '%s\n' "$WG_CONFIG" | sudo tee /etc/wireguard/wg0.conf > /dev/null
           sudo chmod 600 /etc/wireguard/wg0.conf
           sudo wg-quick up wg0
+      - name: Diagnóstico VPN (temporal)
+        continue-on-error: true
+        run: |
+          echo "=== Estado de WireGuard ==="
+          sleep 5
+          sudo wg show
+          echo "=== Rutas ==="
+          ip route
+          echo "=== Ruta hacia el VPS ==="
+          ip route get "$VPS_HOST"
+          echo "=== Ping al VPS ==="
+          ping -c 3 -W 2 "$VPS_HOST" || true
 
       - name: Esperar a que el VPS responda por la VPN
         run: timeout 30 bash -c 'until nc -z "$VPS_HOST" "$VPS_PORT"; do sleep 2; done'
