@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = ReporteCursoResponseMapper.class)
 public interface PuntajeDocenteResponseMapper {
 
     @Mapping(target = "idDocente", source = "id")
@@ -28,20 +28,10 @@ public interface PuntajeDocenteResponseMapper {
 
     List<PuntajeDocenteDTO> toResponseList(List<PuntajeDocenteInfo> puntajeDocenteInfoList);
 
-    @Mapping(target = "promedioGeneral", source = "promedioGeneral", qualifiedByName = "bigDecimalToDouble")
-    PuntajeMateriaDTO toResponse(PuntajeMateriaInfo puntajeMateriaInfo);
-
-    default MateriaDTO toResponse(MateriaInfo materiaInfo){
-        MateriaDTO materiaDTO = new MateriaDTO();
-        materiaDTO.setId(materiaInfo.id());
-        materiaDTO.setDescripcion(trim(materiaInfo.descripcion()));
-        materiaDTO.setCodigo(trim(materiaInfo.codigo()));
-        return materiaDTO;
-    }
-
-    default TipoDocenteDTO toResponse(TipoDocenteInfo tipoDocenteInfo){
-        return new TipoDocenteDTO(tipoDocenteInfo.id(), trim(tipoDocenteInfo.descripcion()));
-    }
+    @Mapping(target = "puntajeGeneral", source = "puntajeGeneral", qualifiedByName = "bigDecimalToDouble")
+    PuntajeDocenteDTO.PuntajeMateria toResponse(PuntajeDocenteInfo.PuntajeMateria puntajeMateria);
+    PuntajeDocenteDTO.PuntajeEstamento toResponse(PuntajeDocenteInfo.PuntajeEstamento puntajeEstamento);
+    PuntajeDocenteDTO.PuntajeIndicador toResponse(PuntajeDocenteInfo.PuntajeIndicador puntajeIndicador);
 
     @Named("trim")
     default String trim(String valor){

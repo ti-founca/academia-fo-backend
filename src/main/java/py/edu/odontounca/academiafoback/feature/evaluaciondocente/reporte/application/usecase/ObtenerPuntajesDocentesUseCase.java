@@ -7,6 +7,7 @@ import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.applic
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.*;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.model.Estamento;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.repository.EstamentoRepository;
+import py.edu.odontounca.academiafoback.shared.exception.NotFoundError;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -21,13 +22,19 @@ public class ObtenerPuntajesDocentesUseCase {
     private final EvaluacionQueryRepository evaluacionQueryRepository;
 
     public Result execute(Query query){
-        if(!this.nominaQueryRepository.existeNominaPorPeriodo(query.idPeriodo()))
-            throw new RuntimeException("No existen nóminas para el periodo " + query.idPeriodo());
+        // Un periodo sin nóminas no es un error: simplemente no tiene puntajes
+        if(!this.nominaQueryRepository.existeNominaPorPeriodo(query.idPeriodo())){
+            if(query.idDocente() != null) throw new NotFoundError("Docente", query.idDocente());
+            return new Result(List.of());
+        }
         List<PuntajeDocenteInfo> puntajeList = this.nominaQueryRepository
                 .docentesPorPeriodo(query.idPeriodo())
                 .stream()
+                .filter(personaInfo -> query.idDocente() == null || query.idDocente().equals(personaInfo.id()))
                 .map(personaInfo -> createPuntajeFrom(personaInfo))
                 .toList();
+        if(query.idDocente() != null && puntajeList.isEmpty())
+            throw new NotFoundError("Docente", query.idDocente());
 
         List<Estamento> estamentoList = this.estamentoRepository.consultarTodos();
         BigDecimal porcentajeTotal = new BigDecimal("0");
@@ -39,20 +46,38 @@ public class ObtenerPuntajesDocentesUseCase {
             List<MateriaTipoDocenteInfo> materiasDocenteList = this.nominaQueryRepository.materiasPorDocentePeriodo(query.idPeriodo(), puntajeDocente.id());
             for(MateriaTipoDocenteInfo materia: materiasDocenteList){
                 BigDecimal puntajePonderadoFinal = new BigDecimal("0").setScale(2, RoundingMode.HALF_UP);
+                List<PuntajeDocenteInfo.PuntajeEstamento> puntajeEstamentoList = new ArrayList<>();
                 for (Estamento estamento : estamentoList){
-                    Double promedio = this.evaluacionQueryRepository.obtenerPromedioPor(
+                    BigDecimal puntaje = new BigDecimal(this.evaluacionQueryRepository.obtenerPromedioPor(
                             query.idPeriodo(),
                             puntajeDocente.id(),
                             materia.materia().id(),
                             materia.tipoDocente().id(),
                             estamento.getId()
-                    );
+                    ).toString());
                     BigDecimal ponderacion = estamento.getPorcentajePeso().divide(new BigDecimal("100"));
-                    BigDecimal puntajePonderado = new BigDecimal(promedio.toString()).multiply(ponderacion);
+                    BigDecimal puntajePonderado = puntaje.multiply(ponderacion).setScale(2, RoundingMode.HALF_UP);
                     puntajePonderadoFinal = puntajePonderadoFinal.add(puntajePonderado);
+
+                    List<PuntajeIndicadorInfo> puntajeIndicadorInfoList = this.evaluacionQueryRepository.obtenerPuntajeIndicadorPor(
+                            query.idPeriodo(),
+                            estamento.getId(),
+                            null,
+                            puntajeDocente.id(),
+                            materia.materia().id()
+                    );
+
+                    PuntajeDocenteInfo.PuntajeEstamento puntajeEstamento = new PuntajeDocenteInfo.PuntajeEstamento(
+                            this.toInfo(estamento),
+                            puntaje,
+                            puntajePonderado,
+                            this.toPuntajeIndicadorList(puntajeIndicadorInfoList)
+                    );
+                    puntajeEstamentoList.add(puntajeEstamento);
+
                 }
                 puntajeDocente.puntajeMateriaList().add(
-                        new PuntajeMateriaInfo(materia.materia(), materia.tipoDocente(), puntajePonderadoFinal)
+                        new PuntajeDocenteInfo.PuntajeMateria(materia.materia(), materia.tipoDocente(), puntajePonderadoFinal, puntajeEstamentoList)
                 );
             }
         }
@@ -63,6 +88,22 @@ public class ObtenerPuntajesDocentesUseCase {
         return new  PuntajeDocenteInfo(personaInfo.id(), personaInfo.nombres(), personaInfo.apellidos(), personaInfo.ci(), new ArrayList<>());
     }
 
-    public static record Query(Integer idPeriodo){}
+    private EstamentoInfo toInfo(Estamento estamento){
+        return new EstamentoInfo(estamento.getId(), estamento.getDescripcion(), estamento.getPorcentajePeso());
+    }
+
+    private PuntajeDocenteInfo.PuntajeIndicador toPuntajeIndicador(PuntajeIndicadorInfo puntajeIndicadorInfo){
+        return new PuntajeDocenteInfo.PuntajeIndicador(
+                puntajeIndicadorInfo.indicador(),
+                puntajeIndicadorInfo.puntaje(),
+                puntajeIndicadorInfo.cantidad()
+        );
+    }
+
+    private List<PuntajeDocenteInfo.PuntajeIndicador> toPuntajeIndicadorList(List<PuntajeIndicadorInfo> puntajeIndicadorInfoList){
+        return puntajeIndicadorInfoList.stream().map(this::toPuntajeIndicador).toList();
+    }
+
+    public static record Query(Integer idPeriodo, Integer idDocente){}
     public static record Result(List<PuntajeDocenteInfo> puntajes){}
 }

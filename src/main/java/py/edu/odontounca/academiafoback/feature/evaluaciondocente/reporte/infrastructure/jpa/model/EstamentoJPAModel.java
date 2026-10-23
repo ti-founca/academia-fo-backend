@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
+@Entity(name = "ReporteEstamentoJPAModel")
 @Table(schema = "evaluacion", name = "estamento")
 @Getter @Setter @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class EstamentoJPAModel {

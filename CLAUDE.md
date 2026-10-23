@@ -17,7 +17,7 @@ Backend de **AcademiaFO** (Facultad de Odontología – UNCA). API REST sobre un
 ./gradlew compileJava  # verificación rápida (MapStruct/Lombok generan código aquí)
 ```
 
-Variables de entorno requeridas: `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`.
+Variables de entorno requeridas: `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `JWT_SECRET` (≥ 32 bytes; p. ej. `openssl rand -base64 48`).
 
 ## Base de datos
 
@@ -52,6 +52,7 @@ Flujo: `Controller` → `UseCase.execute(Query)` → `Repository` (interfaz de d
 - **Mappers**: MapStruct `@Mapper(componentModel = "spring")`; los JPA→dominio se escriben como método `default` llamando a `reconstruir`. Tres capas de mappers: `*JPAMapper`, `*ResultMapper`, `*ResponseMapper`.
 - **DTOs**: `record`s. `*Info` en application, `*DTO` en presentation. El dominio nunca sale del use case.
 - **Rutas**: `/api/<recurso-en-plural-kebab>` (p. ej. `/api/periodos-lectivos`, `/api/evaluaciones/reportes/...`).
+- **Autenticación**: todo `/api/**` exige `Authorization: Bearer <access token>` vía `AutenticacionInterceptor` (sin Spring Security); las rutas públicas se excluyen en `AutenticacionWebConfig` (hoy `/api/auth/login`, `/refresh`, `/logout`). Para conocer al usuario en un controller: parámetro `@UsuarioActual UsuarioAutenticadoInfo usuario`, y pasar solo `usuario.id()` en la `Query` del use case. Validación stateless (no consulta BD); token ausente → `NoAutenticadoError`, inválido → `TokenInvalidoError` (ambos 401).
 - **Errores**: lanzar `NotFoundError(recurso, id)` (subclase de `ApplicationError`); `GlobalExceptionHandler` lo traduce a 404 + `ErrorResponse`.
 - **Paginación**: usar `shared.pagination.{Page, PageRequest, Sort}` (no los de Spring fuera de infraestructura). La API es **base 1**; `PaginationConverter` convierte a/desde Spring (base 0). Sort por query string: `sort=+campo,-otro`.
 - **Filtros**: `shared.filter.Filter` (`Filter.of(new Criteria(...))`) + `GenericSpecificationBuilder` con un `fieldMapping` (campo API → campo JPA) en el `RepositoryImpl`.

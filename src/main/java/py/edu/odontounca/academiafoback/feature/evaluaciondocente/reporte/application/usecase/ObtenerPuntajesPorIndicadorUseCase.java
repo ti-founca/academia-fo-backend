@@ -14,10 +14,10 @@ public class ObtenerPuntajesPorIndicadorUseCase {
 
     public Result execute(Query query){
         return new Result(
-            this.evaluacionQueryRepository.obtenerPuntajeIndicadorPor(query.idPeriodo(), query.idEstamento(), query.idTipoDocente(), query.idEvaluado())
+            this.evaluacionQueryRepository.obtenerPuntajeIndicadorPor(query.idPeriodo(), query.idEstamento(), query.idTipoDocente(), query.idEvaluado(), query.idMateria())
         );
     }
 
-    public static record Query(Integer idPeriodo, Integer idEstamento, Integer idTipoDocente, Integer idEvaluado) {}
+    public static record Query(Integer idPeriodo, Integer idEstamento, Integer idTipoDocente, Integer idEvaluado, Integer idMateria) {}
     public static record Result(List<PuntajeIndicadorInfo> detalles) {}
 }
