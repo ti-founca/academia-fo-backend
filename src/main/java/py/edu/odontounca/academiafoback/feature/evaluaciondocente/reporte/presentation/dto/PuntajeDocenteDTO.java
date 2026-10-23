@@ -7,5 +7,23 @@ public record PuntajeDocenteDTO(
         String nombres,
         String apellidos,
         String ci,
-        List<PuntajeMateriaDTO> puntajes
-) { }
+        List<PuntajeMateria> puntajes
+) {
+    public static record PuntajeMateria(
+        MateriaDTO materia,
+        TipoDocenteDTO tipoDocente,
+        List<PuntajeEstamento> puntajePorEstamento,
+        String puntajeGeneral
+    ){ }
+    public static record PuntajeEstamento(
+        EstamentoDTO estamento,
+        String puntaje,
+        String puntajePonderado,
+        List<PuntajeIndicador> puntajePorIndicador
+    ){ }
+    public static record PuntajeIndicador(
+        IndicadorDTO indicador,
+        String puntaje,
+        Integer cantidad
+    ){ }
+}

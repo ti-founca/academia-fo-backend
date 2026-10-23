@@ -5,7 +5,7 @@ import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.applic
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.usecase.BuscarMateriaPorIdUseCase;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.domain.model.Materia;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = ReporteCursoResultMapper.class)
 public interface MateriaResultMapper {
     BuscarMateriaPorIdUseCase.Result toResult(Materia materia);
     MateriaInfo toInfo(Materia materia);

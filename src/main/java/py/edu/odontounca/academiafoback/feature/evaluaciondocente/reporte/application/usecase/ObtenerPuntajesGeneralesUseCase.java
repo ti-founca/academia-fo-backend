@@ -3,7 +3,7 @@ package py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.appli
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.*;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.mapper.EstamentoResultMapper;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.mapper.ReporteEstamentoResultMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.mapper.MateriaResultMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.mapper.ReportePersonaResultMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.mapper.TipoDocenteResultMapper;
@@ -30,7 +30,7 @@ public class ObtenerPuntajesGeneralesUseCase {
     private final ReportePersonaResultMapper personaResultMapper;
     private final MateriaResultMapper materiaResultMapper;
     private final TipoDocenteResultMapper tipoDocenteResultMapper;
-    private final EstamentoResultMapper estamentoResultMapper;
+    private final ReporteEstamentoResultMapper estamentoResultMapper;
 
     public Result execute(Query query){
         List<EvaluadoInfo> evaluadoMateriaList = this.evaluacionQueryRepository.consultarEvaluadosPor(query.idPeriodo);

@@ -8,4 +8,5 @@ public class MateriaDTO {
     private Integer id;
     private String descripcion;
     private String codigo;
+    private CursoDTO curso;
 }

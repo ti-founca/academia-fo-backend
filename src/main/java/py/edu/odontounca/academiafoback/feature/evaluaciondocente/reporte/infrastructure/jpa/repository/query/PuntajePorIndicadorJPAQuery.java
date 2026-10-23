@@ -5,5 +5,5 @@ import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.infras
 import java.util.List;
 
 public interface PuntajePorIndicadorJPAQuery {
-    public List<PuntajeIndicadorProjection> obtenerPuntajeIndicador(Integer idPeriodo, Integer idEstamento, Integer idTipoDocente, Integer idEvaluado);
+    public List<PuntajeIndicadorProjection> obtenerPuntajeIndicador(Integer idPeriodo, Integer idEstamento, Integer idTipoDocente, Integer idEvaluado, Integer idMateria);
 }

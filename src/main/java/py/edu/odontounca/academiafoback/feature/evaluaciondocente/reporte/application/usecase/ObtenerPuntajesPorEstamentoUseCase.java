@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.contract.EvaluacionQueryRepository;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.dto.info.*;
-import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.mapper.EstamentoResultMapper;
+import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.mapper.ReporteEstamentoResultMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.mapper.MateriaResultMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.mapper.ReportePersonaResultMapper;
 import py.edu.odontounca.academiafoback.feature.evaluaciondocente.reporte.application.mapper.TipoDocenteResultMapper;
@@ -30,7 +30,7 @@ public class ObtenerPuntajesPorEstamentoUseCase {
     private final ReportePersonaResultMapper personaMapper;
     private final MateriaResultMapper materiaMapper;
     private final TipoDocenteResultMapper tipoDocenteMapper;
-    private final EstamentoResultMapper estamentoMapper;
+    private final ReporteEstamentoResultMapper estamentoMapper;
 
     public Result execute(Query query) {
         EstamentoInfo estamentoInfo = this.findEstamento(query.idEstamento());

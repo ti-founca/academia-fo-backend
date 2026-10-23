@@ -34,6 +34,13 @@ dependencies {
     implementation libs.apache.poi
     implementation libs.apache.poi.ooxml
 
+    implementation libs.openpdf
+
+    implementation 'org.springframework.security:spring-security-crypto'
+    implementation libs.jjwt.api
+    runtimeOnly libs.jjwt.impl
+    runtimeOnly libs.jjwt.jackson
+
     compileOnly libs.lombok
     annotationProcessor libs.lombok
 
